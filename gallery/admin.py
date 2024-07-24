@@ -7,7 +7,7 @@ from .models import Art
 class ArtAdmin(admin.ModelAdmin):
     list_display = ['title', 'artist', 'price', 'available', 'art_type']
     list_filter = ['art_type', 'available']
-    search_fields = ['title', 'description', 'artist__username']
+    search_fields = ['title', 'description', 'artist__user__username']
 
 
     fieldsets = (
