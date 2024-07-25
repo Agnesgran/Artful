@@ -19,7 +19,7 @@ class Art(models.Model):
         ('mixed_media', 'Mixed Media'),
     )
 
-    artist = models.ForeignKey(User, on_delete=models.CASCADE)
+    artist = models.ForeignKey(Artist, on_delete=models.CASCADE)
     title = models.CharField(max_length=200)
     description = models.TextField()
     price = models.DecimalField(max_digits=10, decimal_places=2)
