@@ -1,11 +1,8 @@
-<!-- gallery/templates/gallery/home.html -->
-<!DOCTYPE html>
-<html>
-<head>
-    <title>Home</title>
-</head>
-<body>
-    <h1>Welcome to the Art Gallery</h1>
-    <a href="{% url 'account_signup' %}">Signup</a> | <a href="{% url 'account_login' %}">Login</a> | <a href="{% url 'account_logout' %}">Logout</a>
-</body>
-</html>
+{% extends "base.html" %}
+{% block title %}Home{% endblock %}
+
+{% block content %}
+<h1>Welcome to the Art Gallery</h1>
+<!-- Additional content can be added here -->
+{% endblock %}
+
