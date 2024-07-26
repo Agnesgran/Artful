@@ -28,3 +28,20 @@ class Art(models.Model):
 
     def __str__(self):
         return self.title
+
+
+class Profile(models.Model):
+    USER_TYPE_CHOICES = [
+        ('user', 'User'),
+        ('artist', 'Artist'),
+    ]
+
+    user = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+    name = models.CharField(max_length=100, blank=True, null=True)
+    location = models.CharField(max_length=100, blank=True, null=True)
+    age = models.PositiveIntegerField(blank=True, null=True)
+    preferred_medium = models.CharField(max_length=100, blank=True, null=True)
+    user_type = models.CharField(max_length=10, choices=USER_TYPE_CHOICES, default='user')
+
+    def __str__(self):
+        return self.user.username
