@@ -1,5 +1,39 @@
 from django.db import models
 from django.contrib.auth.models import User
+from django.db.models.signals import post_save
+from django.dispatch import receiver
+
+
+class Profile(models.Model):
+    USER_TYPE_CHOICES = [
+        ('user', 'User'),
+        ('artist', 'Artist'),
+    ]
+
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    name = models.CharField(max_length=100, blank=True)
+    location = models.CharField(max_length=100, blank=True)
+    age = models.PositiveIntegerField(null=True, blank=True)
+    preferred_medium = models.CharField(max_length=100, blank=True)
+    user_type = models.CharField(max_length=10, choices=USER_TYPE_CHOICES, default='user')
+
+    def __str__(self):
+        return self.user.username
+
+
+@receiver(post_save, sender=User)
+def create_user_profile(sender, instance, created, **kwargs):
+    if created:
+        Profile.objects.create(user=instance)
+
+
+@receiver(post_save, sender=User)
+def save_user_profile(sender, instance, **kwargs):
+    try:
+        instance.profile.save()
+    except Profile.DoesNotExist:
+        pass
+
 
 class Artist(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
@@ -7,6 +41,7 @@ class Artist(models.Model):
 
     def __str__(self):
         return self.user.username
+
 
 class Art(models.Model):
     ART_TYPE_CHOICES = (
@@ -28,20 +63,3 @@ class Art(models.Model):
 
     def __str__(self):
         return self.title
-
-
-class Profile(models.Model):
-    USER_TYPE_CHOICES = [
-        ('user', 'User'),
-        ('artist', 'Artist'),
-    ]
-
-    user = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
-    name = models.CharField(max_length=100, blank=True, null=True)
-    location = models.CharField(max_length=100, blank=True, null=True)
-    age = models.PositiveIntegerField(blank=True, null=True)
-    preferred_medium = models.CharField(max_length=100, blank=True, null=True)
-    user_type = models.CharField(max_length=10, choices=USER_TYPE_CHOICES, default='user')
-
-    def __str__(self):
-        return self.user.username

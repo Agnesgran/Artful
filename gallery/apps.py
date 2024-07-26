@@ -5,4 +5,4 @@ class GalleryConfig(AppConfig):
     name = 'gallery'
 
     def ready(self):
-        import gallery.signals  # Ensure the signals are imported
+        import gallery.signals 
