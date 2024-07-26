@@ -1,21 +1,26 @@
 {% extends "base.html" %}
+{% load static %}
+
 {% block title %}Art Gallery{% endblock %}
 
 {% block content %}
 <div class="container">
+    <h1 class="my-4">Art Gallery</h1>
     <div class="row">
         {% for art in artworks %}
-        <div class="col-md-4">
+        <div class="col-md-4 mb-4">
             <div class="card">
-                <img src="{{ art.image.url }}" alt="{{ art.title }}">
+                <img src="{{ art.image.url }}" class="card-img-top" alt="{{ art.title }}">
                 <div class="card-body">
-                    <h5>{{ art.title }}</h5>
-                    <p>{{ art.description }}</p>
-                    <p><strong>Price:</strong> ${{ art.price }}</p>
-                    <p><strong>Artist:</strong> {{ art.artist.user.username }}</p>
+                    <h5 class="card-title">{{ art.title }}</h5>
+                    <p class="card-text">{{ art.description }}</p>
+                    <p class="card-text"><strong>Price:</strong> ${{ art.price }}</p>
+                    <p class="card-text"><strong>Artist:</strong> {{ art.artist.user.username }}</p>
                 </div>
             </div>
         </div>
+        {% empty %}
+        <p>No artworks available.</p>
         {% endfor %}
     </div>
 </div>

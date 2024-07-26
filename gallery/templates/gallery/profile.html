@@ -1,4 +1,4 @@
-{% extends "base_generic.html" %}
+{% extends "base.html" %}
 
 {% block content %}
   <h1>Welcome to your profile page, {{ profile.user.username }}!</h1>
@@ -8,6 +8,6 @@
   <p><strong>Age:</strong> {{ profile.age }}</p>
   <p><strong>Preferred Medium:</strong> {{ profile.preferred_medium }}</p>
   <p><strong>User Type:</strong> {{ profile.get_user_type_display }}</p>
-  
+  <a href="{% url 'update_profile' %}">Update Profile</a>
   <!-- Add any other information or functionality you need -->
 {% endblock %}
