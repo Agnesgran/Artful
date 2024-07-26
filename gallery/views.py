@@ -11,14 +11,12 @@ def art_gallery(request):
     artworks = Art.objects.all()
     return render(request, 'gallery/art_gallery.html', {'artworks': artworks})
 
-
 def profile(request):
     try:
         profile = Profile.objects.get(user=request.user)
     except Profile.DoesNotExist:
         raise Http404("Profile does not exist.")
     return render(request, 'gallery/profile.html', {'profile': profile})
-
 
 def update_profile(request):
     try:
