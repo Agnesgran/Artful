@@ -33,8 +33,6 @@ ALLOWED_HOSTS = ['8000-agnesgran-artful-4ge6dc7h7jx.ws.codeinstitute-ide.net','.
 ]
 
 
-# Application definition
-
 INSTALLED_APPS = [
     'django.contrib.admin',
     'django.contrib.auth',
@@ -59,7 +57,6 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'allauth.account.middleware.AccountMiddleware',
 ]
-
 
 SITE_ID = 1
 
@@ -95,24 +92,9 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'artful.wsgi.application'
 
-
-# Database
-# https://docs.djangoproject.com/en/4.2/ref/settings/#databases
-
-# DATABASES = {
-#     'default': {
-#         'ENGINE': 'django.db.backends.sqlite3',
-#         'NAME': BASE_DIR / 'db.sqlite3',
-#     }
-# }
-
-
 DATABASES = {
     'default': dj_database_url.parse(os.environ.get("DATABASE_URL", ""))
 }
-
-# Password validation
-# https://docs.djangoproject.com/en/4.2/ref/settings/#auth-password-validators
 
 AUTH_PASSWORD_VALIDATORS = [
     {
@@ -129,10 +111,6 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-
-# Internationalization
-# https://docs.djangoproject.com/en/4.2/topics/i18n/
-
 LANGUAGE_CODE = 'en-us'
 
 TIME_ZONE = 'UTC'
@@ -141,15 +119,8 @@ USE_I18N = True
 
 USE_TZ = True
 
-
-# Static files (CSS, JavaScript, Images)
-# https://docs.djangoproject.com/en/4.2/howto/static-files/
-
 STATIC_URL = '/static/'
 STATIC_ROOT = BASE_DIR / 'staticfiles'
-
-# Default primary key field type
-# https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
@@ -157,3 +128,6 @@ CSRF_TRUSTED_ORIGINS = [
     'https://8000-agnesgran-artful-4ge6dc7h7jx.ws.codeinstitute-ide.net',
 ]
 
+# Redirects after login and signup
+LOGIN_REDIRECT_URL = '/gallery/profile/'
+ACCOUNT_SIGNUP_REDIRECT_URL = '/gallery/profile/'
