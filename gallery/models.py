@@ -2,6 +2,7 @@ from django.db import models
 from django.contrib.auth.models import User
 from django.db.models.signals import post_save
 from django.dispatch import receiver
+from django.conf import settings
 
 
 class Profile(models.Model):
@@ -10,7 +11,7 @@ class Profile(models.Model):
         ('artist', 'Artist'),
     ]
 
-    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     name = models.CharField(max_length=100, blank=True)
     location = models.CharField(max_length=100, blank=True)
     age = models.PositiveIntegerField(null=True, blank=True)
@@ -19,20 +20,6 @@ class Profile(models.Model):
 
     def __str__(self):
         return self.user.username
-
-
-@receiver(post_save, sender=User)
-def create_user_profile(sender, instance, created, **kwargs):
-    if created:
-        Profile.objects.create(user=instance)
-
-
-@receiver(post_save, sender=User)
-def save_user_profile(sender, instance, **kwargs):
-    try:
-        instance.profile.save()
-    except Profile.DoesNotExist:
-        pass
 
 
 class Artist(models.Model):
@@ -44,6 +31,7 @@ class Artist(models.Model):
 
 
 class Art(models.Model):
+    is_featured = models.BooleanField(default=False)
     ART_TYPE_CHOICES = (
         ('painting', 'Painting'),
         ('sculpture', 'Sculpture'),
@@ -53,7 +41,7 @@ class Art(models.Model):
         ('mixed_media', 'Mixed Media'),
     )
 
-    artist = models.ForeignKey(Artist, on_delete=models.CASCADE)
+    artist = models.ForeignKey(User, on_delete=models.CASCADE)
     title = models.CharField(max_length=200)
     description = models.TextField()
     price = models.DecimalField(max_digits=10, decimal_places=2)
@@ -63,3 +51,9 @@ class Art(models.Model):
 
     def __str__(self):
         return self.title
+
+def get_profile(user):
+    profile, created = Profile.objects.get_or_create(user=user)
+    return profile
+
+User.profile = property(get_profile)

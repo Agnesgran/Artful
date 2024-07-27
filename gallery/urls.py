@@ -9,6 +9,7 @@ urlpatterns = [
     path('upload/', views.upload_art, name='upload_art'),
     path('profile/', views.profile, name='profile'),
     path('update_profile/', views.update_profile, name='update_profile'),
+    path('upload/', views.upload_art, name='upload_art'),
 ]
 
 if settings.DEBUG:

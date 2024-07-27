@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
-from .forms import ProfileUpdateForm
+from .forms import ProfileUpdateForm, ArtUploadForm
 from .models import Profile, Art
 from django.http import Http404
 
@@ -33,3 +33,17 @@ def update_profile(request):
         form = ProfileUpdateForm(instance=profile)
     
     return render(request, 'gallery/update_profile.html', {'form': form})
+
+
+def upload_art(request):
+    if request.method == 'POST':
+        form = ArtUploadForm(request.POST, request.FILES)
+        if form.is_valid():
+            art = form.save(commit=False)
+            art.artist = request.user
+            art.save()
+            return redirect('art_gallery')
+    else:
+        form = ArtUploadForm()
+    
+    return render(request, 'gallery/upload_art.html', {'form': form})
