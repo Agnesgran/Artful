@@ -1,0 +1,40 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Art Detail{% endblock %}
+
+{% block content %}
+<div class="container">
+    <h1 class="my-4">{{ art.title }}</h1>
+    <div class="row">
+        <div class="col-md-8">
+            <img src="{{ art.image.url }}" class="img-fluid" alt="{{ art.title }}">
+        </div>
+        <div class="col-md-4">
+            <h3 class="my-3">Description</h3>
+            <p>{{ art.description }}</p>
+            <h3 class="my-3">Details</h3>
+            <ul>
+                <li><strong>Price:</strong> ${{ art.price }}</li>
+                <li><strong>Available:</strong> {{ art.available }}</li>
+                <li><strong>Artist:</strong> {{ art.artist.username }}</li>
+            </ul>
+            <h3 class="my-3">Comments</h3>
+            <ul>
+                {% for comment in comments %}
+                <li>
+                    <strong>{{ comment.user.username }}:</strong> {{ comment.text }} <br>
+                    <small>{{ comment.created_at }}</small>
+                </li>
+                {% endfor %}
+            </ul>
+            <h3 class="my-3">Leave a Comment</h3>
+            <form method="post">
+                {% csrf_token %}
+                {{ comment_form.as_p }}
+                <button type="submit" class="btn btn-primary">Submit</button>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}

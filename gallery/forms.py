@@ -1,6 +1,5 @@
 from django import forms
-from .models import Profile
-from .models import Art
+from .models import Profile, Art, Comment
 
 class ProfileUpdateForm(forms.ModelForm):
     class Meta:
@@ -11,3 +10,8 @@ class ArtUploadForm(forms.ModelForm):
     class Meta:
         model = Art
         fields = ['title', 'description', 'price', 'image', 'art_type']
+
+class CommentForm(forms.ModelForm):
+    class Meta:
+        model = Comment
+        fields = ['text']

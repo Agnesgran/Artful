@@ -10,6 +10,10 @@ urlpatterns = [
     path('profile/', views.profile, name='profile'),
     path('update_profile/', views.update_profile, name='update_profile'),
     path('upload/', views.upload_art, name='upload_art'),
+    path('art/<int:pk>/', views.art_detail, name='art_detail'),
+    path('login/', views.login_view, name='login'),
+    path('profile/', views.profile_redirect, name='profile_redirect'),
+    path('profile_detail/', views.profile, name='profile'),
 ]
 
 if settings.DEBUG:

@@ -3,6 +3,8 @@ from django.contrib.auth.decorators import login_required
 from .forms import ProfileUpdateForm, ArtUploadForm, CommentForm
 from .models import Profile, Art, Comment
 from django.http import Http404
+from django.contrib.auth.forms import AuthenticationForm
+
 
 def home(request):
     return render(request, 'gallery/home.html')
@@ -11,12 +13,18 @@ def art_gallery(request):
     artworks = Art.objects.all()
     return render(request, 'gallery/art_gallery.html', {'artworks': artworks})
 
+@login_required
 def profile(request):
     try:
         profile = Profile.objects.get(user=request.user)
     except Profile.DoesNotExist:
         raise Http404("Profile does not exist.")
     return render(request, 'gallery/profile.html', {'profile': profile})
+
+def profile_redirect(request):
+    if request.user.is_authenticated:
+        return redirect('profile')
+
 
 def update_profile(request):
     try:
@@ -48,11 +56,14 @@ def upload_art(request):
     
     return render(request, 'gallery/upload_art.html', {'form': form})
 
-    def art_detail(request, pk):
+def art_detail(request, pk):
     art = get_object_or_404(Art, pk=pk)
     comments = art.comments.all()
 
     if request.method == 'POST':
+        if not request.user.is_authenticated:
+            return redirect('login')
+
         comment_form = CommentForm(request.POST)
         if comment_form.is_valid():
             comment = comment_form.save(commit=False)
@@ -64,3 +75,15 @@ def upload_art(request):
         comment_form = CommentForm()
 
     return render(request, 'gallery/art_detail.html', {'art': art, 'comments': comments, 'comment_form': comment_form})
+
+def login_view(request):
+    if request.method == 'POST':
+        form = AuthenticationForm(request, data=request.POST)
+        if form.is_valid():
+            user = form.get_user()
+            login(request, user)
+            return redirect('home')
+    else:
+        form = AuthenticationForm()
+    
+    return render(request, 'accounts/login.html', {'form': form})
