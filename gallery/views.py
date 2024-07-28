@@ -1,7 +1,7 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
-from .forms import ProfileUpdateForm, ArtUploadForm
-from .models import Profile, Art
+from .forms import ProfileUpdateForm, ArtUploadForm, CommentForm
+from .models import Profile, Art, Comment
 from django.http import Http404
 
 def home(request):
@@ -47,3 +47,20 @@ def upload_art(request):
         form = ArtUploadForm()
     
     return render(request, 'gallery/upload_art.html', {'form': form})
+
+    def art_detail(request, pk):
+    art = get_object_or_404(Art, pk=pk)
+    comments = art.comments.all()
+
+    if request.method == 'POST':
+        comment_form = CommentForm(request.POST)
+        if comment_form.is_valid():
+            comment = comment_form.save(commit=False)
+            comment.art = art
+            comment.user = request.user
+            comment.save()
+            return redirect('art_detail', pk=art.pk)
+    else:
+        comment_form = CommentForm()
+
+    return render(request, 'gallery/art_detail.html', {'art': art, 'comments': comments, 'comment_form': comment_form})
