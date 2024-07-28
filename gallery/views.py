@@ -87,3 +87,11 @@ def login_view(request):
         form = AuthenticationForm()
     
     return render(request, 'accounts/login.html', {'form': form})
+
+def search_results(request):
+    query = request.GET.get('q', '')
+    if query:
+        artworks = Art.objects.filter(title__icontains=query) | Art.objects.filter(artist__username__icontains=query)
+    else:
+        artworks = Art.objects.none()
+    return render(request, 'gallery/search_results.html', {'artworks': artworks, 'query': query})
