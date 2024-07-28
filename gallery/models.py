@@ -57,3 +57,12 @@ def get_profile(user):
     return profile
 
 User.profile = property(get_profile)
+
+class Comment(models.Model):
+    art = models.ForeignKey(Art, on_delete=models.CASCADE, related_name='comments')
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    text = models.TextField()
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return f'Comment by {self.user.username} on {self.art.title}'

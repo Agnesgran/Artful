@@ -34,7 +34,7 @@ def update_profile(request):
     
     return render(request, 'gallery/update_profile.html', {'form': form})
 
-
+@login_required
 def upload_art(request):
     if request.method == 'POST':
         form = ArtUploadForm(request.POST, request.FILES)
