@@ -1,18 +1,38 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
-from django.contrib import messages  # Import messages framework
+from django.contrib import messages
 from .forms import ProfileUpdateForm, ArtUploadForm, CommentForm
 from .models import Profile, Art, Comment
 from django.http import Http404
 from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth import login as auth_login, logout as auth_logout
+from django.http import JsonResponse
+from django.core.paginator import Paginator
 
 def home(request):
     return render(request, 'gallery/home.html')
 
 def art_gallery(request):
+    page_number = request.GET.get('page', 1)
     artworks = Art.objects.all()
-    return render(request, 'gallery/art_gallery.html', {'artworks': artworks})
+    paginator = Paginator(artworks, 9)  # Show 9 artworks per page
+    page_obj = paginator.get_page(page_number)
+
+    if request.is_ajax():
+        artworks_data = [
+            {
+                'id': art.pk,
+                'title': art.title,
+                'description': art.description,
+                'image': art.image.url,
+                'price': art.price,
+                'artist': art.artist.username,
+            }
+            for art in page_obj
+        ]
+        return JsonResponse({'artworks': artworks_data})
+
+    return render(request, 'gallery/art_gallery.html', {'artworks': page_obj})
 
 @login_required
 def profile(request):

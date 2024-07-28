@@ -9,6 +9,8 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <!-- Custom CSS -->
     <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+    <!-- JavaScript-->
+    <script src="{% static 'js/scroll-to-top.js' %}" defer></script>
 </head>
 <body>
     <!-- Header -->
@@ -54,6 +56,7 @@
         </div>
     </nav>
 
+    <div id="feedback-message" class="alert" role="alert" style="display: none;"></div>
     <!-- Main Content -->
     <main class="container my-4">
         {% block content %}
