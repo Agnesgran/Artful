@@ -3,36 +3,23 @@ from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from .forms import ProfileUpdateForm, ArtUploadForm, CommentForm
 from .models import Profile, Art, Comment
-from django.http import Http404
+from django.http import JsonResponse
 from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth import login as auth_login, logout as auth_logout
-from django.http import JsonResponse
-from django.core.paginator import Paginator
 
 def home(request):
     return render(request, 'gallery/home.html')
 
 def art_gallery(request):
-    page_number = request.GET.get('page', 1)
+    if request.headers.get('x-requested-with') == 'XMLHttpRequest':
+        artworks = Art.objects.all()
+        data = {
+            'artworks': list(artworks.values('id', 'title', 'image', 'description', 'price', 'artist__username'))
+        }
+        return JsonResponse(data)
+    
     artworks = Art.objects.all()
-    paginator = Paginator(artworks, 9)  # Show 9 artworks per page
-    page_obj = paginator.get_page(page_number)
-
-    if request.is_ajax():
-        artworks_data = [
-            {
-                'id': art.pk,
-                'title': art.title,
-                'description': art.description,
-                'image': art.image.url,
-                'price': art.price,
-                'artist': art.artist.username,
-            }
-            for art in page_obj
-        ]
-        return JsonResponse({'artworks': artworks_data})
-
-    return render(request, 'gallery/art_gallery.html', {'artworks': page_obj})
+    return render(request, 'gallery/art_gallery.html', {'artworks': artworks})
 
 @login_required
 def profile(request):
@@ -93,6 +80,9 @@ def art_detail(request, pk):
             comment.user = request.user
             comment.save()
             messages.success(request, 'Your comment has been posted!')
+            if request.headers.get('x-requested-with') == 'XMLHttpRequest':
+                comments_data = list(comments.values('id', 'user__username', 'text', 'created_at'))
+                return JsonResponse({'comments': comments_data})
             return redirect('art_detail', pk=art.pk)
     else:
         comment_form = CommentForm()
