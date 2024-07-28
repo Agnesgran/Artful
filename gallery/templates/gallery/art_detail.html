@@ -4,36 +4,56 @@
 {% block title %}Art Detail{% endblock %}
 
 {% block content %}
-<div class="container">
+<div class="container mt-4">
     <h1 class="my-4">{{ art.title }}</h1>
     <div class="row">
+        <!-- Art Image -->
         <div class="col-md-8">
-            <img src="{{ art.image.url }}" class="img-fluid" alt="{{ art.title }}">
+            <img src="{{ art.image.url }}" class="img-fluid rounded" alt="{{ art.title }}">
         </div>
+
+        <!-- Art Details and Comments -->
         <div class="col-md-4">
-            <h3 class="my-3">Description</h3>
-            <p>{{ art.description }}</p>
-            <h3 class="my-3">Details</h3>
-            <ul>
-                <li><strong>Price:</strong> ${{ art.price }}</li>
-                <li><strong>Available:</strong> {{ art.available }}</li>
-                <li><strong>Artist:</strong> {{ art.artist.username }}</li>
-            </ul>
-            <h3 class="my-3">Comments</h3>
-            <ul>
-                {% for comment in comments %}
-                <li>
-                    <strong>{{ comment.user.username }}:</strong> {{ comment.text }} <br>
-                    <small>{{ comment.created_at }}</small>
-                </li>
-                {% endfor %}
-            </ul>
-            <h3 class="my-3">Leave a Comment</h3>
-            <form method="post">
-                {% csrf_token %}
-                {{ comment_form.as_p }}
-                <button type="submit" class="btn btn-primary">Submit</button>
-            </form>
+            <!-- Art Description -->
+            <div class="mb-4">
+                <h3>Description</h3>
+                <p>{{ art.description }}</p>
+            </div>
+
+            <!-- Art Details -->
+            <div class="mb-4">
+                <h3>Details</h3>
+                <ul class="list-unstyled">
+                    <li><strong>Price:</strong> ${{ art.price }}</li>
+                    <li><strong>Available:</strong> {{ art.available }}</li>
+                    <li><strong>Artist:</strong> {{ art.artist.username }}</li>
+                </ul>
+            </div>
+
+            <!-- Comments Section -->
+            <div id="comments-section" class="mb-4">
+                <h3>Comments</h3>
+                <ul id="comments-list" class="list-unstyled">
+                    {% for comment in comments %}
+                    <li class="mb-2 border-bottom pb-2">
+                        <strong>{{ comment.user.username }}:</strong> {{ comment.text }} <br>
+                        <small class="text-muted">{{ comment.created_at }}</small>
+                    </li>
+                    {% empty %}
+                    <li>No comments yet.</li>
+                    {% endfor %}
+                </ul>
+            </div>
+
+            <!-- Comment Form -->
+            <div>
+                <h3>Leave a Comment</h3>
+                <form id="comment-form" method="post">
+                    {% csrf_token %}
+                    {{ comment_form.as_p }}
+                    <button type="submit" class="btn btn-primary">Submit</button>
+                </form>
+            </div>
         </div>
     </div>
 </div>
