@@ -1,10 +1,11 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
+from django.contrib import messages  # Import messages framework
 from .forms import ProfileUpdateForm, ArtUploadForm, CommentForm
 from .models import Profile, Art, Comment
 from django.http import Http404
 from django.contrib.auth.forms import AuthenticationForm
-
+from django.contrib.auth import login as auth_login, logout as auth_logout
 
 def home(request):
     return render(request, 'gallery/home.html')
@@ -25,7 +26,6 @@ def profile_redirect(request):
     if request.user.is_authenticated:
         return redirect('profile')
 
-
 def update_profile(request):
     try:
         profile = Profile.objects.get(user=request.user)
@@ -36,6 +36,7 @@ def update_profile(request):
         form = ProfileUpdateForm(request.POST, instance=profile)
         if form.is_valid():
             form.save()
+            messages.success(request, 'Profile updated successfully!')
             return redirect('profile')
     else:
         form = ProfileUpdateForm(instance=profile)
@@ -50,6 +51,7 @@ def upload_art(request):
             art = form.save(commit=False)
             art.artist = request.user
             art.save()
+            messages.success(request, 'Art uploaded successfully!')
             return redirect('art_gallery')
     else:
         form = ArtUploadForm()
@@ -70,6 +72,7 @@ def art_detail(request, pk):
             comment.art = art
             comment.user = request.user
             comment.save()
+            messages.success(request, 'Your comment has been posted!')
             return redirect('art_detail', pk=art.pk)
     else:
         comment_form = CommentForm()
@@ -81,12 +84,20 @@ def login_view(request):
         form = AuthenticationForm(request, data=request.POST)
         if form.is_valid():
             user = form.get_user()
-            login(request, user)
+            auth_login(request, user)
+            messages.success(request, 'You have successfully logged in!')
             return redirect('home')
+        else:
+            messages.error(request, 'Invalid username or password.')
     else:
         form = AuthenticationForm()
     
     return render(request, 'accounts/login.html', {'form': form})
+
+def logout_view(request):
+    auth_logout(request)
+    messages.success(request, 'You have successfully logged out!')
+    return redirect('home')
 
 def search_results(request):
     query = request.GET.get('q', '')

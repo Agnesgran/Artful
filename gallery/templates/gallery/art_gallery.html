@@ -20,10 +20,6 @@
                 </div>
             </div>
         </div>
-        <form method="get" action="{% url 'search_results' %}">
-            <input type="text" name="q" placeholder="Search by title or artist" />
-            <button type="submit">Search</button>
-        </form>
         {% empty %}
         <p>No artworks available.</p>
         {% endfor %}
