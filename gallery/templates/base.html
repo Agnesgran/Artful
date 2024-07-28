@@ -3,32 +3,32 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{% block title %}My Site{% endblock %}</title>
-    {% load static %}
-    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    <title>{% block title %}My Art Gallery{% endblock %}</title>
+    <link rel="stylesheet" href="{% static 'css/styles.css' %}">
 </head>
 <body>
-    <header>
-        <nav>
-            <a class="nav-link" href="{% url 'home' %}">Home</a>
-            <a class="nav-link" href="{% url 'art_gallery' %}">Gallery</a>
-            <a class="nav-link" href="{% url 'profile' %}">Profile</a>
-            <a class="nav-link" href="{% url 'upload_art' %}">Upload Art</a>
-            {% if user.is_authenticated %}
-                <a href="{% url 'account_logout' %}">Logout</a>
-            {% else %}
-                <a href="{% url 'account_login' %}">Login</a>
-                <a href="{% url 'account_signup' %}">Sign Up</a>
-            {% endif %}
-        </nav>
-    </header>
-    <main>
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <a class="navbar-brand" href="{% url 'home' %}">Art Gallery</a>
+        <div class="collapse navbar-collapse">
+            <ul class="navbar-nav mr-auto">
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'art_gallery' %}">Artworks</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'profile' %}">Profile</a>
+                </li>
+            </ul>
+            <form class="form-inline my-2 my-lg-0" method="get" action="{% url 'search_results' %}">
+                <input class="form-control mr-sm-2" type="search" name="q" placeholder="Search by title or artist" aria-label="Search">
+                <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+            </form>
+        </div>
+    </nav>
+
+    <div class="container">
         {% block content %}
-       
+        <!-- Content specific to each page goes here -->
         {% endblock %}
-    </main>
-    <footer>
-    
-    </footer>
+    </div>
 </body>
 </html>
