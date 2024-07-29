@@ -10,17 +10,16 @@ urlpatterns = [
     path('upload/', views.upload_art, name='upload_art'),
     path('profile/', views.profile, name='profile'),
     path('update_profile/', views.update_profile, name='update_profile'),
-    path('upload/', views.upload_art, name='upload_art'),
     path('art/<int:pk>/', views.art_detail, name='art_detail'),
     path('login/', views.login_view, name='login'),
-    path('profile/', views.profile_redirect, name='profile_redirect'),
-    path('profile_detail/', views.profile, name='profile'),
     path('search/', views.search_results, name='search_results'),
     path('logout/', auth_views.LogoutView.as_view(), name='logout'),
+    path('signup/', views.signup, name='signup'),
     path('signup_success/', views.signup_success, name='signup_success'),
     path('gallery/load-more/', views.load_more_artworks, name='load_more_artworks'),
     path('logout_success/', views.logout_success, name='logout_success'),
 ]
 
 if settings.DEBUG:
+    urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

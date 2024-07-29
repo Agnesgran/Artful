@@ -1,9 +1,7 @@
 document.addEventListener('DOMContentLoaded', function() {
-    // Scroll to Top Functionality
     const scrollToTopButton = document.createElement('button');
     scrollToTopButton.textContent = 'Top';
-    scrollToTopButton.className = 'scroll-to-top';
-    scrollToTopButton.style.display = 'none'; // Initially hidden
+    scrollToTopButton.className = 'scroll-to-top'; 
     document.body.appendChild(scrollToTopButton);
 
     // Show or hide the button based on scroll position
@@ -19,6 +17,7 @@ document.addEventListener('DOMContentLoaded', function() {
     scrollToTopButton.addEventListener('click', function() {
         window.scrollTo({ top: 0, behavior: 'smooth' });
     });
+});
 
     // Load More Artworks Functionality
     let page = 1;
@@ -66,4 +65,4 @@ document.addEventListener('DOMContentLoaded', function() {
     loadMoreButton.addEventListener('click', () => {
         loadMoreArtworks();
     });
-});
+
