@@ -1,0 +1,11 @@
+{% extends "base.html" %}
+{% block title %}Login Success{% endblock %}
+
+{% block content %}
+<div class="container text-center mt-5">
+    <h2>Login Successful!</h2>
+    <p>You have been logged in successfully.</p>
+    <a href="{% url 'home' %}" class="btn btn-primary">Go to Homepage</a>
+    <a href="{% url 'profile' %}" class="btn btn-secondary">Visit Your Profile</a>
+</div>
+{% endblock %}

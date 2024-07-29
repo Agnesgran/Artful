@@ -3,7 +3,7 @@
 
 {% block content %}
 <div class="form-container">
-    <form class="form-card" method="POST" action="{% url 'account_login' %}">
+    <form class="form-card" method="POST" action="{% url 'login' %}">
         <h2>Login</h2>
         {% csrf_token %}
         {% if form.errors %}
