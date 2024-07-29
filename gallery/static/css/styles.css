@@ -66,6 +66,67 @@ main {
     border-color: #545b62;
 }
 
+/* General form styles */
+.form-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 80vh; 
+    padding: 2rem;
+}
+
+.form-card {
+    background-color: #f8f9fa; 
+    padding: 2rem;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    max-width: 500px;
+    width: 100%;
+}
+
+.form-card h2 {
+    margin-bottom: 1.5rem;
+    text-align: center;
+    color: #343a40; 
+}
+
+.form-card button,
+.form-card a.btn {
+    display: block;
+    width: 100%;
+    text-align: center;
+    padding: 0.75rem;
+    border-radius: 4px;
+    font-size: 1rem;
+    margin-top: 1rem;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+.form-card button {
+    background-color: #6c757d; 
+    color: #fff; 
+    border: none;
+}
+
+.form-card button:hover {
+    background-color: #5a6268; 
+}
+
+.form-card a.btn {
+    background-color: #6c757d; 
+    color: #fff; 
+    border: none;
+}
+
+.form-card a.btn:hover {
+    background-color: #5a6268; 
+}
+
+.form-card .form-control {
+    margin-bottom: 1rem;
+}
+
 /* Footer Styles */
 footer {
     background-color: #000; 
