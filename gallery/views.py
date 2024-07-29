@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
-from .forms import ProfileUpdateForm, ArtUploadForm, CommentForm,
+from .forms import ProfileUpdateForm, ArtUploadForm, CommentForm
 from django.contrib.auth.forms import UserCreationForm
 from .models import Profile, Art, Comment
 from django.http import JsonResponse
@@ -139,8 +139,27 @@ def signup(request):
         if form.is_valid():
             form.save()
             messages.success(request, "You have successfully signed up")
-            return redirect('home')  
+            return redirect('signup_success')  
     else:
         form = UserCreationForm()
     
-    return render(request, 'gallery/signup.html', {'form': form})
+    return render(request, 'accounts/signup.html', {'form': form})
+
+def signup_success(request):
+    return render(request, 'accounts/signup_success.html')
+
+from django.http import JsonResponse
+from django.core.paginator import Paginator
+
+def load_more_artworks(request):
+    page_number = request.GET.get('page', 1)
+    artworks = Art.objects.all()
+    paginator = Paginator(artworks, 10)
+    page = paginator.get_page(page_number)
+    
+    artworks_data = list(page.object_list.values('id', 'title', 'image', 'description', 'price', 'artist__username'))
+    
+    return JsonResponse({
+        'artworks': artworks_data,
+        'has_more': page.has_next()
+    })

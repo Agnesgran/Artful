@@ -17,7 +17,8 @@ urlpatterns = [
     path('profile_detail/', views.profile, name='profile'),
     path('search/', views.search_results, name='search_results'),
     path('logout/', auth_views.LogoutView.as_view(), name='logout'),
-    path('signup/', views.signup, name='signup'),
+    path('signup_success/', views.signup_success, name='signup_success'),
+    path('gallery/load-more/', views.load_more_artworks, name='load_more_artworks'),
 ]
 
 if settings.DEBUG:

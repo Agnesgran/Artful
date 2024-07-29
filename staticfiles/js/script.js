@@ -22,63 +22,53 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 
     // Dynamic Content Loading for Comments
-    function loadComments(artId) {
-        fetch(`/gallery/art/${artId}/comments/`) // Adjust URL based on your route
-            .then(response => response.json())
-            .then(data => {
-                updateCommentsSection(data.comments);
-            })
-            .catch(error => {
-                console.error('Error loading comments:', error);
-            });
-    }
-
-    function updateCommentsSection(comments) {
-        const commentsContainer = document.getElementById('comments-section');
-        commentsContainer.innerHTML = ''; // Clear existing comments
-
-        comments.forEach(comment => {
-            const commentElement = document.createElement('div');
-            commentElement.className = 'comment';
-            commentElement.innerHTML = `
-                <p><strong>${comment.user__username}</strong> - ${comment.created_at}</p>
-                <p>${comment.text}</p>
-            `;
-            commentsContainer.appendChild(commentElement);
+    document.addEventListener('DOMContentLoaded', function() {
+        let page = 1;
+        const loadMoreButton = document.getElementById('load-more-button');
+        const loadMoreContainer = document.getElementById('load-more-container');
+    
+        // Function to load more artworks
+        function loadMoreArtworks() {
+            fetch(`/gallery/load-more/?page=${page + 1}`)
+                .then(response => response.json())
+                .then(data => {
+                    // Append new artworks to the container
+                    const container = document.getElementById('art-gallery-container');
+                    data.artworks.forEach(artwork => {
+                        const div = document.createElement('div');
+                        div.innerHTML = `
+                            <h3>${artwork.title}</h3>
+                            <img src="${artwork.image}" alt="${artwork.title}" />
+                            <p>${artwork.description}</p>
+                            <p>Price: ${artwork.price}</p>
+                            <p>Artist: ${artwork.artist}</p>
+                        `;
+                        container.appendChild(div);
+                    });
+    
+                    // Increment page number
+                    page += 1;
+    
+                    // Hide button if no more artworks to load
+                    if (data.has_more === false) {
+                        loadMoreContainer.style.display = 'none';
+                    }
+                });
+        }
+    
+        // Show Load More button when scrolled to bottom
+        window.addEventListener('scroll', () => {
+            if ((window.innerHeight + window.scrollY) >= document.body.offsetHeight) {
+                loadMoreContainer.style.display = 'block';
+            }
         });
-    }
-
-    // Handle form submission via AJAX
-    const commentForm = document.getElementById('comment-form');
-    if (commentForm) {
-        commentForm.addEventListener('submit', function(event) {
-            event.preventDefault();
-
-            const formData = new FormData(this);
-            fetch(this.action, {
-                method: 'POST',
-                body: formData,
-                headers: {
-                    'X-CSRFToken': document.querySelector('[name=csrfmiddlewaretoken]').value
-                }
-            })
-            .then(response => {
-                if (response.ok) {
-                    loadComments(document.body.dataset.artId); // Reload comments
-                    this.reset(); // Clear the form
-                } else {
-                    console.error('Failed to post comment.');
-                }
-            })
-            .catch(error => {
-                console.error('Error posting comment:', error);
-            });
+    
+        // Load more artworks when button is clicked
+        loadMoreButton.addEventListener('click', () => {
+            loadMoreArtworks();
         });
-    }
-
-    // Initialize comments section if the artId is present
-    const artId = document.body.dataset.artId;
-    if (artId) {
-        loadComments(artId);
-    }
-});
+    
+        // Initial load more check
+        loadMoreArtworks();
+    });
+    
