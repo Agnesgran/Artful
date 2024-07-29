@@ -1,5 +1,4 @@
 {% extends "base.html" %}
-{% load socialaccount %}
 {% block title %}Login{% endblock %}
 
 {% block content %}
@@ -7,10 +6,14 @@
     <form class="form-card" method="POST" action="{% url 'account_login' %}">
         <h2>Login</h2>
         {% csrf_token %}
+        {% if form.errors %}
+            <div class="alert alert-danger">
+                Please correct the errors below.
+            </div>
+        {% endif %}
         {{ form.as_p }}
         <button type="submit">Login</button>
         <a href="{% url 'home' %}" class="btn">Back to Home</a>
     </form>
 </div>
 {% endblock %}
-
