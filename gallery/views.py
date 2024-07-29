@@ -41,17 +41,18 @@ def update_profile(request):
         profile = Profile.objects.get(user=request.user)
     except Profile.DoesNotExist:
         profile = Profile.objects.create(user=request.user)
-    
+
     if request.method == 'POST':
-        form = ProfileUpdateForm(request.POST, instance=profile)
+        form = ProfileUpdateForm(request.POST, request.FILES, instance=profile)
         if form.is_valid():
             form.save()
-            messages.success(request, 'Profile updated successfully!')
+            messages.success(request, 'You have updated your profile successfully!')
             return redirect('profile')
     else:
         form = ProfileUpdateForm(instance=profile)
-    
+
     return render(request, 'gallery/update_profile.html', {'form': form})
+
 
 @login_required
 def upload_art(request):
@@ -155,8 +156,10 @@ def load_more_artworks(request):
 
 @login_required
 def login_success(request):
-    return render(request, 'login_success.html')
+    return render(request, 'accounts/login_success.html')
 
 class CustomLoginView(LoginView):
+    template_name = 'accounts/login.html'
+    
     def get_success_url(self):
         return reverse_lazy('login_success')
