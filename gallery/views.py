@@ -44,10 +44,14 @@ def update_profile(request):
 
     if request.method == 'POST':
         form = ProfileUpdateForm(request.POST, request.FILES, instance=profile)
-        if form.is_valid():
+
+        
+        if 'confirm' in request.POST and form.is_valid():
             form.save()
             messages.success(request, 'You have updated your profile successfully!')
-            return redirect('profile')
+            return redirect('profile')  
+        elif 'edit' in request.POST:
+            messages.info(request, 'You are editing your profile.')
     else:
         form = ProfileUpdateForm(instance=profile)
 
