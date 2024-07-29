@@ -1,7 +1,8 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
-from .forms import ProfileUpdateForm, ArtUploadForm, CommentForm
+from .forms import ProfileUpdateForm, ArtUploadForm, CommentForm,
+from django.contrib.auth.forms import UserCreationForm
 from .models import Profile, Art, Comment
 from django.http import JsonResponse
 from django.contrib.auth.forms import AuthenticationForm
@@ -131,3 +132,15 @@ def search_results(request):
     else:
         artworks = Art.objects.none()
     return render(request, 'gallery/search_results.html', {'artworks': artworks, 'query': query})
+
+def signup(request):
+    if request.method == 'POST':
+        form = UserCreationForm(request.POST)
+        if form.is_valid():
+            form.save()
+            messages.success(request, "You have successfully signed up")
+            return redirect('home')  
+    else:
+        form = UserCreationForm()
+    
+    return render(request, 'gallery/signup.html', {'form': form})
