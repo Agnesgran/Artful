@@ -7,70 +7,74 @@
     <title>{% block title %}Artful{% endblock %}</title>
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <!-- Font Awesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
     <!-- CSS -->
     <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+    {% block extra_css %}{% endblock %}
 </head>
 <body>
-    <!-- Header -->
-    <header class="bg-dark text-light py-3">
-        <div class="container">
-            <h1 class="text-center">Artful</h1>
-        </div>
-    </header>
+    <!-- Flex Wrapper -->
+    <div class="flex-wrapper">
+        <!-- Header -->
+        <header class="bg-dark text-light py-3">
+            <div class="container">
+                <h1 class="text-center">Artful</h1>
+            </div>
+        </header>
 
-    <!-- Navigation -->
-    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-        <a class="navbar-brand" href="{% url 'home' %}">Home</a>
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse" id="navbarNav">
-            <ul class="navbar-nav mr-auto">
-                <li class="nav-item">
-                    <a class="nav-link" href="{% url 'art_gallery' %}">Artworks</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="{% url 'profile' %}">Profile</a>
-                </li>
-            </ul>
-            <form class="form-inline my-2 my-lg-0" method="get" action="{% url 'search_results' %}">
-                <input class="form-control mr-sm-2" type="search" name="q" placeholder="Search by title or artist" aria-label="Search">
-                <button class="btn btn-outline-light my-2 my-sm-0" type="submit">Search</button>
-            </form>
-            <ul class="navbar-nav ml-auto">
-                {% if user.is_authenticated %}
-                <li class="nav-item">
-                    <a class="nav-link" href="{% url 'logout' %}">Log Out</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="{% url 'upload_art' %}">Upload Art</a>
-                </li>
-                {% else %}
-                <li class="nav-item">
-                    <a class="nav-link" href="{% url 'login' %}">Log In</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="{% url 'signup' %}">Sign Up</a>
-                </li>
-                {% endif %}
-            </ul>
-        </div>
-    </nav>
+        <!-- Navigation -->
+        <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+            <a class="navbar-brand" href="{% url 'home' %}">Home</a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav mr-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'art_gallery' %}">Artworks</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'profile' %}">Profile</a>
+                    </li>
+                </ul>
+                <form class="form-inline my-2 my-lg-0" method="get" action="{% url 'search_results' %}">
+                    <input class="form-control mr-sm-2" type="search" name="q" placeholder="Search by title or artist" aria-label="Search">
+                    <button class="btn btn-outline-light my-2 my-sm-0" type="submit">Search</button>
+                </form>
+                <ul class="navbar-nav ml-auto">
+                    {% if user.is_authenticated %}
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'logout' %}">Log Out</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'upload_art' %}">Upload Art</a>
+                    </li>
+                    {% else %}
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'login' %}">Log In</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'signup' %}">Sign Up</a>
+                    </li>
+                    {% endif %}
+                </ul>
+            </div>
+        </nav>
 
-    <div id="feedback-message" class="alert" role="alert" style="display: none;"></div>
-    <!-- Main Content -->
-    <main class="container my-4">
-        {% block content %}
+        <!-- Main Content -->
+        <main class="container my-4">
+            {% block content %}
+            {% endblock %}
+        </main>
 
-        {% endblock %}
-    </main>
-
-    <!-- Footer -->
-    <footer class="bg-dark text-light py-3">
-        <div class="container text-center">
-            <p>&copy; 2024 Artful. All rights reserved.</p>
-        </div>
-    </footer>
+        <!-- Footer -->
+        <footer class="bg-dark text-light py-3">
+            <div class="container text-center">
+                <p>&copy; 2024 Artful. All rights reserved.</p>
+            </div>
+        </footer>
+    </div>
 
     <!-- Bootstrap and JavaScript -->
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
@@ -80,3 +84,4 @@
     <script src="{% static 'js/script.js' %}" defer></script>
 </body>
 </html>
+

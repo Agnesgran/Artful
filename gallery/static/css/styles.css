@@ -1,21 +1,24 @@
 /* General Styles */
-body {
-    background-color: #fff; 
-    color: #333; 
+html, body {
+    height: 100%;
+    margin: 0;
 }
 
-a {
-    color: #2164ab; 
+.flex-wrapper {
+    display: flex;
+    min-height: 100vh;
+    flex-direction: column;
 }
 
-a:hover {
-    color: #0056b3; 
+main {
+    flex: 1;
 }
+
 
 /* Hero Section Styles (for home page) */
 .hero {
-    background-color: #000; /* Black background */
-    color: #f8f9fa; /* Off-white text */
+    background-color: #000; 
+    color: #f8f9fa;
     padding: 80px 0;
     text-align: center;
 }
@@ -67,4 +70,6 @@ a:hover {
 footer {
     background-color: #000; 
     color: #f8f9fa;
+    padding: 1rem 0;
+    text-align: center;
 }
