@@ -1,1 +1,1 @@
-web: gunicorn artful.wsgi
+web: gunicorn artful.wsgi --log-file -

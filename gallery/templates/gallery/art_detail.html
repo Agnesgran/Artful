@@ -12,20 +12,18 @@
             <img src="{{ art.image.url }}" class="img-fluid rounded" alt="{{ art.title }}">
         </div>
 
-        <!-- Art Details and Comments -->
         <div class="col-md-4">
-            <!-- Art Description -->
             <div class="mb-4">
-                <h3>Description</h3>
+                <h3>Art Description</h3>
                 <p>{{ art.description }}</p>
             </div>
 
-            <!-- Art Details -->
-            <div class="mb-4">
+             <!-- Art Details -->
+             <div class="mb-4">
                 <h3>Details</h3>
                 <ul class="list-unstyled">
                     <li><strong>Price:</strong> ${{ art.price }}</li>
-                    <li><strong>Available:</strong> {{ art.available }}</li>
+                    <li><strong>Available:</strong> {{ art.available|yesno:"Yes,No" }}</li>
                     <li><strong>Artist:</strong> {{ art.artist.username }}</li>
                 </ul>
             </div>

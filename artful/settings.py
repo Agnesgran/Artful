@@ -27,7 +27,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-0-to+#9+khlw(w8_6w7^is2gi(^6sx^=u4!d74ezun248+_#jo'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
 ALLOWED_HOSTS = ['8000-agnesgran-artful-4ge6dc7h7jx.ws.codeinstitute-ide.net','.herokuapp.com'
 ]
@@ -49,6 +49,7 @@ INSTALLED_APPS = [
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
+    'whitenoise.middleware.WhiteNoiseMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -95,6 +96,8 @@ WSGI_APPLICATION = 'artful.wsgi.application'
 DATABASES = {
     'default': dj_database_url.parse(os.environ.get("DATABASE_URL", ""))
 }
+
+django_heroku.settings(locals())
 
 AUTH_PASSWORD_VALIDATORS = [
     {

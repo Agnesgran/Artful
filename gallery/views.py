@@ -8,9 +8,11 @@ from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth import login as auth_login, logout as auth_logout
 
 def home(request):
+    # Render the homepage
     return render(request, 'gallery/home.html')
 
 def art_gallery(request):
+    # Handle AJAX requests for dynamic content
     if request.headers.get('x-requested-with') == 'XMLHttpRequest':
         artworks = Art.objects.all()
         data = {
@@ -18,11 +20,13 @@ def art_gallery(request):
         }
         return JsonResponse(data)
     
+    # Render the gallery page
     artworks = Art.objects.all()
     return render(request, 'gallery/art_gallery.html', {'artworks': artworks})
 
 @login_required
 def profile(request):
+    # Display the user's profile or raise a 404 error if not found
     try:
         profile = Profile.objects.get(user=request.user)
     except Profile.DoesNotExist:
@@ -30,10 +34,12 @@ def profile(request):
     return render(request, 'gallery/profile.html', {'profile': profile})
 
 def profile_redirect(request):
+    # Redirect authenticated users to their profile
     if request.user.is_authenticated:
         return redirect('profile')
 
 def update_profile(request):
+    # Update or create user profile
     try:
         profile = Profile.objects.get(user=request.user)
     except Profile.DoesNotExist:
@@ -52,6 +58,7 @@ def update_profile(request):
 
 @login_required
 def upload_art(request):
+    # Handle art upload form submission
     if request.method == 'POST':
         form = ArtUploadForm(request.POST, request.FILES)
         if form.is_valid():
@@ -66,6 +73,7 @@ def upload_art(request):
     return render(request, 'gallery/upload_art.html', {'form': form})
 
 def art_detail(request, pk):
+    # Display art details and handle comment submission
     art = get_object_or_404(Art, pk=pk)
     comments = art.comments.all()
 
@@ -80,9 +88,13 @@ def art_detail(request, pk):
             comment.user = request.user
             comment.save()
             messages.success(request, 'Your comment has been posted!')
+            
             if request.headers.get('x-requested-with') == 'XMLHttpRequest':
+                # Return new comments data for AJAX requests
                 comments_data = list(comments.values('id', 'user__username', 'text', 'created_at'))
                 return JsonResponse({'comments': comments_data})
+            
+            # Redirect after posting a comment
             return redirect('art_detail', pk=art.pk)
     else:
         comment_form = CommentForm()
@@ -90,6 +102,7 @@ def art_detail(request, pk):
     return render(request, 'gallery/art_detail.html', {'art': art, 'comments': comments, 'comment_form': comment_form})
 
 def login_view(request):
+    # Handle user login
     if request.method == 'POST':
         form = AuthenticationForm(request, data=request.POST)
         if form.is_valid():
@@ -105,11 +118,13 @@ def login_view(request):
     return render(request, 'accounts/login.html', {'form': form})
 
 def logout_view(request):
+    # Handle user logout
     auth_logout(request)
     messages.success(request, 'You have successfully logged out!')
     return redirect('home')
 
 def search_results(request):
+    # Search for artworks by title or artist username
     query = request.GET.get('q', '')
     if query:
         artworks = Art.objects.filter(title__icontains=query) | Art.objects.filter(artist__username__icontains=query)
