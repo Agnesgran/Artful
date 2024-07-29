@@ -1,50 +1,37 @@
+/* General Styles */
 body {
-    background-color: #000; 
-    color: #f8f9fa;
-    font-family: 'Arial', sans-serif;
+    background-color: #fff; 
+    color: #333; 
 }
 
-header h1 {
-    font-size: 2.5rem;
-    font-weight: bold;
+a {
+    color: #2164ab; 
 }
 
-.navbar {
-    margin-bottom: 20px;
+a:hover {
+    color: #0056b3; 
 }
 
-.navbar-nav .nav-link {
-    color: #f8f9fa;
+/* Hero Section Styles (for home page) */
+.hero {
+    background-color: #000; /* Black background */
+    color: #f8f9fa; /* Off-white text */
+    padding: 80px 0;
+    text-align: center;
 }
 
-.navbar-nav .nav-link:hover {
-    color: #adb5bd;
+.hero h1 {
+    font-size: 3rem;
+    margin-bottom: 0.5rem;
 }
 
-footer p {
-    margin: 0;
-}
-
-.form-control {
-    background-color: #343a40;
-    color: #f8f9fa;
-}
-
-.form-control::placeholder {
-    color: #6c757d;
-}
-
-.btn-outline-light {
-    border-color: #f8f9fa;
-    color: #f8f9fa;
-}
-
-.btn-outline-light:hover {
-    background-color: #f8f9fa;
-    color: #000;
+.hero p {
+    font-size: 1.25rem;
+    margin-top: 1rem;
 }
 
 
+/*scroll to top button*/
 .scroll-to-top {
     position: fixed;
     bottom: 20px;
@@ -65,6 +52,7 @@ footer p {
     background-color: #555;
 }
 
+/*all bootstrap primary buttons*/
 .btn-primary {
     background-color: #555;
     border-color: #6c757d;
@@ -73,4 +61,10 @@ footer p {
 .btn-primary:hover {
     background-color: #5a6268;
     border-color: #545b62;
+}
+
+/* Footer Styles */
+footer {
+    background-color: #000; 
+    color: #f8f9fa;
 }
