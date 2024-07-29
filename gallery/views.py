@@ -122,7 +122,10 @@ def logout_view(request):
     # Handle user logout
     auth_logout(request)
     messages.success(request, 'You have successfully logged out!')
-    return redirect('home')
+    return redirect('logout_success')
+
+def logout_success(request):
+    return render(request, 'accounts/logout_success.html')
 
 def search_results(request):
     # Search for artworks by title or artist username

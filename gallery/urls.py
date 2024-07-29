@@ -19,6 +19,7 @@ urlpatterns = [
     path('logout/', auth_views.LogoutView.as_view(), name='logout'),
     path('signup_success/', views.signup_success, name='signup_success'),
     path('gallery/load-more/', views.load_more_artworks, name='load_more_artworks'),
+    path('logout_success/', views.logout_success, name='logout_success'),
 ]
 
 if settings.DEBUG:
