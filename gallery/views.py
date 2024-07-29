@@ -9,6 +9,7 @@ from django.http import JsonResponse
 from django.contrib.auth import login as auth_login, logout as auth_logout
 from django.urls import reverse_lazy
 from django.contrib.auth.views import LoginView
+from django.contrib.messages import get_messages
 
 def home(request):
     return render(request, 'gallery/home.html')
@@ -30,12 +31,10 @@ def profile(request):
         profile = Profile.objects.get(user=request.user)
     except Profile.DoesNotExist:
         raise Http404("Profile does not exist.")
+    
     return render(request, 'gallery/profile.html', {'profile': profile})
 
-def profile_redirect(request):
-    if request.user.is_authenticated:
-        return redirect('profile')
-
+@login_required
 def update_profile(request):
     try:
         profile = Profile.objects.get(user=request.user)
@@ -44,19 +43,14 @@ def update_profile(request):
 
     if request.method == 'POST':
         form = ProfileUpdateForm(request.POST, request.FILES, instance=profile)
-
-        
-        if 'confirm' in request.POST and form.is_valid():
+        if form.is_valid():
             form.save()
             messages.success(request, 'You have updated your profile successfully!')
-            return redirect('profile')  
-        elif 'edit' in request.POST:
-            messages.info(request, 'You are editing your profile.')
+            return redirect('profile')
     else:
         form = ProfileUpdateForm(instance=profile)
 
     return render(request, 'gallery/update_profile.html', {'form': form})
-
 
 @login_required
 def upload_art(request):
