@@ -9,7 +9,10 @@ class ProfileUpdateForm(forms.ModelForm):
 class ArtUploadForm(forms.ModelForm):
     class Meta:
         model = Art
-        fields = ['title', 'description', 'price', 'image', 'art_type']
+        fields = ['title', 'description', 'price', 'image', 'art_type'] 
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
 
 class CommentForm(forms.ModelForm):
     class Meta:

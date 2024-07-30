@@ -54,7 +54,7 @@ def upload_art(request):
         form = ArtUploadForm(request.POST, request.FILES)
         if form.is_valid():
             art = form.save(commit=False)
-            art.artist = request.user
+            art.artist = request.user  # Set the logged-in user as the artist
             art.save()
             messages.success(request, 'Art uploaded successfully!')
             return redirect('art_gallery')
@@ -63,15 +63,6 @@ def upload_art(request):
     
     return render(request, 'gallery/upload_art.html', {'form': form})
 
-class Art(models.Model):
-    title = models.CharField(max_length=100)
-    image = models.ImageField(upload_to='artworks/')
-    description = models.TextField()
-    price = models.DecimalField(max_digits=10, decimal_places=2)
-    artist = models.ForeignKey(User, on_delete=models.CASCADE)
-
-    def __str__(self):
-        return self.title
 
 def art_detail(request, pk):
     art = get_object_or_404(Art, pk=pk)
