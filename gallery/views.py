@@ -11,19 +11,25 @@ from django.contrib.auth.views import LoginView
 from django.contrib.messages import get_messages
 from .forms import ProfileForm
 
+
 def home(request):
     return render(request, 'gallery/home.html')
+
 
 def art_gallery(request):
     if request.headers.get('x-requested-with') == 'XMLHttpRequest':
         artworks = Art.objects.all()
+
         data = {
-            'artworks': list(artworks.values('id', 'title', 'image', 'description', 'price', 'artist__username'))
+            'artworks': list(artworks.values(
+                'id', 'title', 'image', 'description',
+                'price', 'artist__username'))
         }
         return JsonResponse(data)
-    
+
     artworks = Art.objects.all()
     return render(request, 'gallery/art_gallery.html', {'artworks': artworks})
+
 
 @login_required
 def profile(request):
@@ -31,8 +37,9 @@ def profile(request):
         profile = Profile.objects.get(user=request.user)
     except Profile.DoesNotExist:
         raise Http404("Profile does not exist.")
-    
+
     return render(request, 'gallery/profile.html', {'profile': profile})
+
 
 @login_required
 def update_profile(request):
@@ -47,20 +54,22 @@ def update_profile(request):
 
     return render(request, 'gallery/update_profile.html', {'form': form})
 
+
 @login_required
 def upload_art(request):
     if request.method == 'POST':
         form = ArtUploadForm(request.POST, request.FILES)
         if form.is_valid():
             art = form.save(commit=False)
-            art.artist = request.user 
+            art.artist = request.user
             art.save()
             messages.success(request, 'Art uploaded successfully!')
             return redirect('art_gallery')
     else:
         form = ArtUploadForm()
-    
+
     return render(request, 'gallery/upload_art.html', {'form': form})
+
 
 @login_required
 def art_detail(request, pk):
@@ -86,7 +95,8 @@ def art_detail(request, pk):
                     'comment': {
                         'user': comment.user.username,
                         'text': comment.text,
-                        'created_at': comment.created_at.strftime('%Y-%m-%d %H:%M:%S')
+                        'created_at': comment.created_at.strftime(
+                            '%Y-%m-%d %H:%M:%S')
                     }
                 }
                 return JsonResponse(data)
@@ -95,7 +105,9 @@ def art_detail(request, pk):
     else:
         comment_form = CommentForm()
 
-    return render(request, 'gallery/art_detail.html', {'art': art, 'comments': comments, 'comment_form': comment_form})
+    return render(request, 'gallery/art_detail.html', {
+        'art': art, 'comments': comments, 'comment_form': comment_form})
+
 
 def delete_art(request, pk):
     art = get_object_or_404(Art, pk=pk)
@@ -103,6 +115,7 @@ def delete_art(request, pk):
         art.delete()
         return redirect('art_gallery')
     return render(request, 'gallery/delete_art.html', {'art': art})
+
 
 def signup(request):
     if request.method == 'POST':
@@ -113,18 +126,22 @@ def signup(request):
             return redirect('signup_success')
     else:
         form = UserCreationForm()
-    
+
     return render(request, 'accounts/signup.html', {'form': form})
+
 
 def signup_success(request):
     return render(request, 'accounts/signup_success.html')
+
 
 def logout_view(request):
     auth_logout(request)
     return redirect('logout_success')
 
+
 def logout_success(request):
     return render(request, 'accounts/logout_success.html')
+
 
 class CustomLoginView(LoginView):
     template_name = 'accounts/login.html'
@@ -136,10 +153,13 @@ class CustomLoginView(LoginView):
             self.request.session.modified = True
         return super(CustomLoginView, self).form_valid(form)
 
+
 def login_success(request):
     storage = get_messages(request)
     messages = [str(message) for message in storage]
-    return render(request, 'accounts/login_success.html', {'messages': messages})
+    return render(request, 'accounts/login_success.html', {
+        'messages': messages})
+
 
 def search_results(request):
     query = request.GET.get('query')
@@ -149,12 +169,14 @@ def search_results(request):
         results = Art.objects.none()
     return render(request, 'gallery/search_results.html', {'results': results})
 
+
 def load_more_artworks(request):
     if request.headers.get('x-requested-with') == 'XMLHttpRequest':
         artworks = Art.objects.all()
         data = {
-            'artworks': list(artworks.values('id', 'title', 'image', 'description', 'price', 'artist__username'))
+            'artworks': list(artworks.values(
+                      'id', 'title', 'image', 'description', 'price',
+                      'artist__username'))
         }
         return JsonResponse(data)
     return JsonResponse({'error': 'Invalid request'}, status=400)
-

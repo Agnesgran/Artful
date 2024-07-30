@@ -11,12 +11,17 @@ class Profile(models.Model):
         ('artist', 'Artist'),
     ]
 
-    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+    user = models.ForeignKey(
+        settings.AUTH_USER_MODEL,
+        on_delete=models.CASCADE
+        )
     name = models.CharField(max_length=100, blank=True)
     location = models.CharField(max_length=100, blank=True)
     age = models.PositiveIntegerField(null=True, blank=True)
     preferred_medium = models.CharField(max_length=100, blank=True)
-    user_type = models.CharField(max_length=10, choices=USER_TYPE_CHOICES, default='user')
+    user_type = models.CharField(
+             max_length=10, choices=USER_TYPE_CHOICES,
+             default='user')
 
     def __str__(self):
         return self.user.username
@@ -52,14 +57,20 @@ class Art(models.Model):
     def __str__(self):
         return self.title
 
+
 def get_profile(user):
     profile, created = Profile.objects.get_or_create(user=user)
     return profile
 
+
 User.profile = property(get_profile)
 
+
 class Comment(models.Model):
-    art = models.ForeignKey(Art, on_delete=models.CASCADE, related_name='comments')
+    art = models.ForeignKey(
+        Art, on_delete=models.CASCADE,
+        related_name='comments'
+        )
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     text = models.TextField()
     created_at = models.DateTimeField(auto_now_add=True)

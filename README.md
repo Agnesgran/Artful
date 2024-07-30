@@ -111,19 +111,19 @@ Artful is a web application designed for art enthusiasts to explore and manage a
 
 | Metric            | Desktop Score | Mobile Score |
 |-------------------|---------------|--------------|
-| **Performance**   | 90+           | 85+          |
-| **Accessibility** | 90+           | 90+          |
-| **Best Practices**| 90+           | 90+          |
-| **SEO**           | 90+           | 90+          |
+| **Performance**   | 72            | 69           |
+| **Accessibility** | 98            | 98           |
+| **Best Practices**| 100           | 100          |
+| **SEO**           | 91            | 91           |
 
 ### Code Validation
 
-| Validator        | Results                                      |
-|------------------|----------------------------------------------|
-| **HTML**         | No errors found using [W3C HTML Validator]   |
-| **CSS**          | No errors found using [Jigsaw CSS Validator] |
-| **JavaScript**   | No errors found using [JSHint].              |
-| **Python**       | No major issues detected using [CI Linter].  |
+| Validator        | Results                                                          |
+|------------------|------------------------------------------------------------------|
+| **HTML**         | No errors, 1 warning found using [W3C HTML Validator]            |
+| **CSS**          | No errors found using [Jigsaw CSS Validator]                     |
+| **JavaScript**   | No errors, and 9 ES6 warnings found using [JSHint].              |
+| **Python**       | No major issues detected using [CI Linter].                      |
 
 ### User Story Testing
 
