@@ -2,28 +2,36 @@
 
 Artful is a web application designed for art enthusiasts to explore and manage art collections. It features a gallery of artworks, artist profiles, and allows users to interact through comments. The site emphasizes a user-friendly experience with a focus on showcasing art and facilitating interactions between artists and visitors.
 
-![Responsive Mockup](https://github.com/YourUsername/Artful/blob/main/assets/readme_images/landingmockup.png)
+![Responsive Mockup](https://github.com/Agnesgran/Artful/blob/main/assets/images/landingmockup.png)
 
 ## Features
 
 ### Home
 - **Landing Page**: Showcases a collection of featured artworks with a brief introduction to Artful.
 - **Search Functionality**: Users can search for artworks and artists.
+(https://github.com/Agnesgran/Artful/blob/main/assets/images/landingpage.png)
+(https://github.com/Agnesgran/Artful/blob/main/assets/images/navbar.png)
 
 ### Art Gallery
 - **Art Listings**: Displays a grid of artworks with basic information and image thumbnails.
+(https://github.com/Agnesgran/Artful/blob/main/assets/images/art_gallery.png)
 
 ### Art Detail
 - **Art Description**: Detailed view of individual artwork including title, description, price, availability, and artist.
 - **Comments Section**: Users can read and post comments on artworks.
 - **Leave a Comment**: Authenticated users can submit comments.
+(https://github.com/Agnesgran/Artful/blob/main/assets/images/art_detail.png)
+(https://github.com/Agnesgran/Artful/blob/main/assets/images/comment.png)
 
 ### Profile
 - **User Profile**: Displays user information and allows updates.
 - **Profile Update**: Users can update their profile details including name, location, and preferred medium.
+(https://github.com/Agnesgran/Artful/blob/main/assets/images/profile.png)
+(https://github.com/Agnesgran/Artful/blob/main/assets/images/edit_profile.png)
 
 ### Upload Art
 - **Art Submission**: Authenticated users can upload new artworks to the gallery.
+(https://github.com/Agnesgran/Artful/blob/main/assets/images/upload_art.png)
 
 ## Authentication and User Capabilities
 
@@ -41,8 +49,8 @@ Artful is a web application designed for art enthusiasts to explore and manage a
 - **Delete a Posted Comment**: Users can delete comments they have made on artworks.
 - **Edit Profile**: Users can update their profile information, including personal details and preferences.
 
-### Flow Diagram
-
+### Flowchart
+(https://github.com/Agnesgran/Artful/blob/main/assets/images/Fl%C3%B6desschema.png)
 
 
 ## Technologies
@@ -116,6 +124,9 @@ Artful is a web application designed for art enthusiasts to explore and manage a
 | **Best Practices**| 100           | 100          |
 | **SEO**           | 91            | 91           |
 
+(https://github.com/Agnesgran/Artful/blob/main/assets/images/lighthousedesktop.png)
+(https://github.com/Agnesgran/Artful/blob/main/assets/images/lighthousemobile.png)
+
 ### Code Validation
 
 | Validator        | Results                                                          |
@@ -123,7 +134,13 @@ Artful is a web application designed for art enthusiasts to explore and manage a
 | **HTML**         | No errors, 1 warning found using [W3C HTML Validator]            |
 | **CSS**          | No errors found using [Jigsaw CSS Validator]                     |
 | **JavaScript**   | No errors, and 9 ES6 warnings found using [JSHint].              |
-| **Python**       | No major issues detected using [CI Linter].                      |
+| **Python**       | No issues detected using [CI Linter].                            |
+
+- HTML (https://github.com/Agnesgran/Artful/blob/main/assets/images/html_warning.png)
+- CSS (https://github.com/Agnesgran/Artful/blob/main/assets/images/css.png)
+- model.py (https://github.com/Agnesgran/Artful/blob/main/assets/images/model.png)
+- views.py (https://github.com/Agnesgran/Artful/blob/main/assets/images/views.png)
+- forms.py (https://github.com/Agnesgran/Artful/blob/main/assets/images/forms.png)
 
 ### User Story Testing
 
