@@ -24,7 +24,8 @@ def art_gallery(request):
         return JsonResponse(data)
     
     artworks = Art.objects.all()
-    return render(request, 'gallery/art_gallery.html', {'artworks': artworks})
+    messages = get_messages(request)
+    return render(request, 'gallery/art_gallery.html', {'artworks': artworks, 'messages': messages})
 
 @login_required
 def profile(request):
@@ -54,7 +55,7 @@ def upload_art(request):
         form = ArtUploadForm(request.POST, request.FILES)
         if form.is_valid():
             art = form.save(commit=False)
-            art.artist = request.user  # Set the logged-in user as the artist
+            art.artist = request.user 
             art.save()
             messages.success(request, 'Art uploaded successfully!')
             return redirect('art_gallery')

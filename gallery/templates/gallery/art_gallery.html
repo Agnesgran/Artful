@@ -6,26 +6,29 @@
 {% block content %}
 <div class="container">
     <h1 class="my-4">Art Gallery</h1>
+    {% if messages %}
+        <div class="alert alert-success">
+            {% for message in messages %}
+                {{ message }}
+            {% endfor %}
+        </div>
+    {% endif %}
     <div class="row">
         {% for art in artworks %}
-        <div class="col-md-4 mb-4">
-            <div class="card">
-                <img src="{{ art.image.url }}" class="card-img-top" alt="{{ art.title }}">
-                <div class="card-body">
-                    <h5 class="card-title">{{ art.title }}</h5>
-                    <p class="card-text">{{ art.description }}</p>
-                    <p class="card-text"><strong>Price:</strong> ${{ art.price }}</p>
-                    <p class="card-text"><strong>Artist:</strong> {{ art.artist.username }}</p>
-                    <a href="{% url 'art_detail' art.pk %}" class="btn btn-primary">View Details</a>
+            <div class="col-md-4">
+                <div class="card mb-4 shadow-sm">
+                    <img src="{{ art.image.url }}" class="card-img-top" alt="{{ art.title }}">
+                    <div class="card-body">
+                        <h5 class="card-title">{{ art.title }}</h5>
+                        <p class="card-text">{{ art.description }}</p>
+                        <p class="card-text"><strong>Price:</strong> ${{ art.price }}</p>
+                        <p class="card-text"><strong>Artist:</strong> {{ art.artist.username }}</p>
+                        <a href="{% url 'art_detail' art.pk %}" class="btn btn-primary">View Details</a>
+                    </div>
                 </div>
             </div>
-        </div>
-        {% empty %}
-        <p>No artworks available.</p>
         {% endfor %}
     </div>
 </div>
-<div id="load-more-container" class="text-center mt-4" style="display: none;">
-    <button id="load-more-button" class="btn btn-primary">Load More</button>
-</div>
 {% endblock %}
+
