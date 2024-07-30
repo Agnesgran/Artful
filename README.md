@@ -2,7 +2,7 @@
 
 Artful is a web application designed for art enthusiasts to explore and manage art collections. It features a gallery of artworks, artist profiles, and allows users to interact through comments. The site emphasizes a user-friendly experience with a focus on showcasing art and facilitating interactions between artists and visitors.
 
-![Responsive Mockup](https://github.com/Agnesgran/Artful/blob/main/assets/images/landingmockup.png)
+![Responsive Mockup](https://github.com/Agnesgran/Artful/blob/main/static/images/landingmockup.png)
 
 ## Features
 
