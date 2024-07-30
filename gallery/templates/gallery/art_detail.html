@@ -1,26 +1,47 @@
 {% extends "base.html" %}
 
 {% block content %}
-<h2>{{ art.title }}</h2>
-<img src="{{ art.image.url }}" alt="{{ art.title }}">
-<p>{{ art.description }}</p>
-<p>Price: ${{ art.price }}</p>
-<p>Artist: {{ art.artist.username }}</p>
+<div class="container">
+    <h2 class="my-4">{{ art.title }}</h2>
+    
+    <!-- Image with Bootstrap responsive class -->
+    <div class="text-center">
+        <img src="{{ art.image.url }}" alt="{{ art.title }}" class="img-fluid art-image">
+    </div>
 
-{% if user.is_authenticated and art.artist == user %}
-    <a href="{% url 'delete_art' art.pk %}" class="btn btn-danger">Delete</a>
-{% endif %}
+    <p class="my-3">{{ art.description }}</p>
+    <p><strong>Price:</strong> ${{ art.price }}</p>
+    <p><strong>Artist:</strong> {{ art.artist.username }}</p>
 
-<h3>Comments</h3>
-{% for comment in comments %}
-    <p>{{ comment.text }}</p>
-    <p>By: {{ comment.user.username }} on {{ comment.created_at }}</p>
-{% endfor %}
+    {% if user.is_authenticated and art.artist == user %}
+        <a href="{% url 'delete_art' art.pk %}" class="btn btn-danger">Delete</a>
+    {% endif %}
 
-<h3>Leave a Comment</h3>
-<form method="POST">
-    {% csrf_token %}
-    {{ comment_form.as_p }}
-    <button type="submit" class="btn btn-primary">Submit</button>
-</form>
+    <!-- Display success messages -->
+    {% if messages %}
+        <div class="alert alert-success">
+            {% for message in messages %}
+                {{ message }}
+            {% endfor %}
+        </div>
+    {% endif %}
+
+    <h3 class="my-4">Comments</h3>
+    {% for comment in comments %}
+        <div class="comment-box mb-3 p-3 border rounded">
+            <p><strong>{{ comment.user.username }}:</strong> {{ comment.text }}</p>
+            <p><small class="text-muted">{{ comment.created_at }}</small></p>
+        </div>
+    {% empty %}
+        <p>No comments yet.</p>
+    {% endfor %}
+
+    <h3 class="my-4">Leave a Comment</h3>
+    <form method="POST">
+        {% csrf_token %}
+        {{ comment_form.as_p }}
+        <button type="submit" class="btn btn-primary">Submit</button>
+    </form>
+</div>
 {% endblock %}
+

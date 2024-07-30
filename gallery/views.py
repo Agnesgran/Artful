@@ -1,4 +1,3 @@
-# gallery/views.py
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
@@ -24,8 +23,7 @@ def art_gallery(request):
         return JsonResponse(data)
     
     artworks = Art.objects.all()
-    messages = get_messages(request)
-    return render(request, 'gallery/art_gallery.html', {'artworks': artworks, 'messages': messages})
+    return render(request, 'gallery/art_gallery.html', {'artworks': artworks})
 
 @login_required
 def profile(request):
@@ -64,7 +62,7 @@ def upload_art(request):
     
     return render(request, 'gallery/upload_art.html', {'form': form})
 
-
+@login_required
 def art_detail(request, pk):
     art = get_object_or_404(Art, pk=pk)
     comments = art.comments.all()
@@ -80,11 +78,12 @@ def art_detail(request, pk):
             comment.user = request.user
             comment.save()
             messages.success(request, 'Your comment has been posted!')
-            
+
+            # Handle AJAX requests
             if request.headers.get('x-requested-with') == 'XMLHttpRequest':
                 comments_data = list(comments.values('id', 'user__username', 'text', 'created_at'))
                 return JsonResponse({'comments': comments_data})
-            
+
             return redirect('art_detail', pk=art.pk)
     else:
         comment_form = CommentForm()
@@ -173,3 +172,4 @@ def delete_art(request, pk):
         return redirect('art_gallery')
 
     return render(request, 'gallery/delete_art.html', {'art': art})
+
