@@ -12,6 +12,15 @@
     <p class="my-3">{{ art.description }}</p>
     <p><strong>Price:</strong> ${{ art.price }}</p>
     <p><strong>Artist:</strong> {{ art.artist.username }}</p>
+    
+    <!-- Availability Status -->
+    <p><strong>Availability:</strong> 
+        {% if art.available %}
+            Yes
+        {% else %}
+            No
+        {% endif %}
+    </p>
 
     {% if user.is_authenticated and art.artist == user %}
         <a href="{% url 'delete_art' art.pk %}" class="btn btn-danger">Delete</a>
@@ -44,4 +53,5 @@
     </form>
 </div>
 {% endblock %}
+
 

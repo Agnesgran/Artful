@@ -26,16 +26,43 @@ Artful is a web application designed for art enthusiasts to explore and manage a
 ### Upload Art
 - **Art Submission**: Authenticated users can upload new artworks to the gallery.
 
+## Authentication and User Capabilities
+
 ### Authentication
-- **Login**: Secure login functionality for users.
-- **Logout**: Users can log out of their accounts.
 
-![Home Page](https://github.com/YourUsername/Artful/blob/main/assets/readme_images/homepage.png)
-![Art Gallery](https://github.com/YourUsername/Artful/blob/main/assets/readme_images/artgallery.png)
-![Art Detail](https://github.com/YourUsername/Artful/blob/main/assets/readme_images/artdetail.png)
-![Profile](https://github.com/YourUsername/Artful/blob/main/assets/readme_images/profile.png)
-![Upload Art](https://github.com/YourUsername/Artful/blob/main/assets/readme_images/uploadart.png)
+- **Login**: Users can securely log in to their accounts using their credentials.
+- **Logout**: Users can log out of their accounts to end their session.
+- **Sign Up**: New users can create an account by signing up with their details.
 
+### User Capabilities (Logged In)
+
+- **Upload Art**: Logged-in users can upload artwork to the gallery.
+- **Delete Uploaded Art**: Users can remove artwork they have previously uploaded.
+- **Comment**: Users can leave comments on artworks.
+- **Delete a Posted Comment**: Users can delete comments they have made on artworks.
+- **Edit Profile**: Users can update their profile information, including personal details and preferences.
+
+### Flow Diagram
+
+Here is a basic flow of user interactions with authentication and capabilities:
+
+```plaintext
++----------------+       +----------------+       +----------------+       +----------------+
+|  Sign Up Page  | ----> |    Login Page  | ----> |  User Dashboard| ----> |   Upload Art   |
++----------------+       +----------------+       +----------------+       +----------------+
+                                                          |                             |
+                                                          |                             |
+                                                          v                             v
+                                                 +----------------+       +----------------+
+                                                 |  Commenting    |       |   Delete Art   |
+                                                 |   Feature      |       +----------------+
+                                                 +----------------+       +----------------+
+                                                          |                              |
+                                                          |                              v
+                                                          v               +----------------+
+                                                 +----------------+       | Edit Profile   |
+                                                 | Delete Comment |       +----------------+
+                                                 +----------------+
 ## Technologies
 
 - **Frontend**: HTML, CSS (Bootstrap), JavaScript
@@ -47,7 +74,7 @@ Artful is a web application designed for art enthusiasts to explore and manage a
 ## UX Design
 
 ### Navigation
-- **Navigation Bar**: Consistent across all pages with links to Home, Art Gallery, Profile, and Contact pages.
+- **Navigation Bar**: Consistent across all pages with links to Home, Artworks, Profile, log in/ log out and upload art.
 
 ### Responsiveness
 - **Mobile-Friendly**: Designed to be responsive across devices including smartphones, tablets, and desktops.
