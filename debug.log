@@ -10781,3 +10781,19 @@ File /workspace/.pip-modules/lib/python3.12/site-packages/django/conf/locale/en/
 "GET /media/art_images/pexels-rdne-8903712_29TmxeA.jpg HTTP/1.1" 304 0
 "GET /media/art_images/pexels-kubra-dogu-80605500-11405440.jpg HTTP/1.1" 304 0
 "GET /media/art_images/pexels-hans-w-1304003-2493293.jpg HTTP/1.1" 304 0
+(0.084) 
+            SELECT
+                c.relname,
+                CASE
+                    WHEN c.relispartition THEN 'p'
+                    WHEN c.relkind IN ('m', 'v') THEN 'v'
+                    ELSE 't'
+                END,
+                obj_description(c.oid, 'pg_class')
+            FROM pg_catalog.pg_class c
+            LEFT JOIN pg_catalog.pg_namespace n ON n.oid = c.relnamespace
+            WHERE c.relkind IN ('f', 'm', 'p', 'r', 'v')
+                AND n.nspname NOT IN ('pg_catalog', 'pg_toast')
+                AND pg_catalog.pg_table_is_visible(c.oid)
+        ; args=None; alias=default
+(0.032) SELECT "django_migrations"."id", "django_migrations"."app", "django_migrations"."name", "django_migrations"."applied" FROM "django_migrations"; args=(); alias=default
