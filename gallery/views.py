@@ -81,8 +81,15 @@ def art_detail(request, pk):
 
             # Handle AJAX requests
             if request.headers.get('x-requested-with') == 'XMLHttpRequest':
-                comments_data = list(comments.values('id', 'user__username', 'text', 'created_at'))
-                return JsonResponse({'comments': comments_data})
+                data = {
+                    'success': True,
+                    'comment': {
+                        'user': comment.user.username,
+                        'text': comment.text,
+                        'created_at': comment.created_at.strftime('%Y-%m-%d %H:%M:%S')
+                    }
+                }
+                return JsonResponse(data)
 
             return redirect('art_detail', pk=art.pk)
     else:
@@ -90,43 +97,19 @@ def art_detail(request, pk):
 
     return render(request, 'gallery/art_detail.html', {'art': art, 'comments': comments, 'comment_form': comment_form})
 
-def login_view(request):
+def delete_art(request, pk):
+    art = get_object_or_404(Art, pk=pk)
     if request.method == 'POST':
-        form = AuthenticationForm(request, data=request.POST)
-        if form.is_valid():
-            user = form.get_user()
-            auth_login(request, user)
-            messages.success(request, 'You have successfully logged in!')
-            return redirect('home')
-        else:
-            messages.error(request, 'Invalid username or password.')
-    else:
-        form = AuthenticationForm()
-    
-    return render(request, 'accounts/login.html', {'form': form})
-
-def logout_view(request):
-    auth_logout(request)
-    messages.success(request, 'You have successfully logged out!')
-    return redirect('logout_success')
-
-def logout_success(request):
-    return render(request, 'accounts/logout_success.html')
-
-def search_results(request):
-    query = request.GET.get('q', '')
-    if query:
-        artworks = Art.objects.filter(title__icontains=query) | Art.objects.filter(artist__username__icontains=query)
-    else:
-        artworks = Art.objects.none()
-    return render(request, 'gallery/search_results.html', {'artworks': artworks, 'query': query})
+        art.delete()
+        return redirect('art_gallery')
+    return render(request, 'gallery/delete_art.html', {'art': art})
 
 def signup(request):
     if request.method == 'POST':
         form = UserCreationForm(request.POST)
         if form.is_valid():
-            form.save()
-            messages.success(request, 'You have successfully signed up!')
+            user = form.save()
+            auth_login(request, user)
             return redirect('signup_success')
     else:
         form = UserCreationForm()
@@ -136,40 +119,42 @@ def signup(request):
 def signup_success(request):
     return render(request, 'accounts/signup_success.html')
 
-def load_more_artworks(request):
-    page_number = request.GET.get('page', 1)
-    artworks = Art.objects.all()
-    paginator = Paginator(artworks, 10)
-    page = paginator.get_page(page_number)
-    
-    artworks_data = list(page.object_list.values('id', 'title', 'image', 'description', 'price', 'artist__username'))
-    
-    return JsonResponse({
-        'artworks': artworks_data,
-        'has_more': page.has_next()
-    })
+def logout_view(request):
+    auth_logout(request)
+    return redirect('logout_success')
 
-@login_required
-def login_success(request):
-    return render(request, 'accounts/login_success.html')
+def logout_success(request):
+    return render(request, 'accounts/logout_success.html')
 
 class CustomLoginView(LoginView):
     template_name = 'accounts/login.html'
-    
-    def get_success_url(self):
-        return reverse_lazy('login_success')
 
-@login_required
-def delete_art(request, pk):
-    art = get_object_or_404(Art, pk=pk)
-    if art.artist != request.user:
-        messages.error(request, "You do not have permission to delete this artwork.")
-        return redirect('art_detail', pk=pk)
+    def form_valid(self, form):
+        remember_me = self.request.POST.get('remember_me')
+        if not remember_me:
+            self.request.session.set_expiry(0)
+            self.request.session.modified = True
+        return super(CustomLoginView, self).form_valid(form)
 
-    if request.method == 'POST':
-        art.delete()
-        messages.success(request, "Your artwork has been deleted successfully!")
-        return redirect('art_gallery')
+def login_success(request):
+    storage = get_messages(request)
+    messages = [str(message) for message in storage]
+    return render(request, 'accounts/login_success.html', {'messages': messages})
 
-    return render(request, 'gallery/delete_art.html', {'art': art})
+def search_results(request):
+    query = request.GET.get('query')
+    if query:
+        results = Art.objects.filter(title__icontains=query)
+    else:
+        results = Art.objects.none()
+    return render(request, 'gallery/search_results.html', {'results': results})
+
+def load_more_artworks(request):
+    if request.headers.get('x-requested-with') == 'XMLHttpRequest':
+        artworks = Art.objects.all()
+        data = {
+            'artworks': list(artworks.values('id', 'title', 'image', 'description', 'price', 'artist__username'))
+        }
+        return JsonResponse(data)
+    return JsonResponse({'error': 'Invalid request'}, status=400)
 

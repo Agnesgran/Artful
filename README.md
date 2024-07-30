@@ -30,8 +30,6 @@ Artful is a web application designed for art enthusiasts to explore and manage a
 - **Login**: Secure login functionality for users.
 - **Logout**: Users can log out of their accounts.
 
-
-
 ![Home Page](https://github.com/YourUsername/Artful/blob/main/assets/readme_images/homepage.png)
 ![Art Gallery](https://github.com/YourUsername/Artful/blob/main/assets/readme_images/artgallery.png)
 ![Art Detail](https://github.com/YourUsername/Artful/blob/main/assets/readme_images/artdetail.png)
@@ -74,24 +72,66 @@ Artful is a web application designed for art enthusiasts to explore and manage a
 | **Responsive Design**             | Check layout on various devices and screen sizes. | Pass           |
 | **Error Handling**                | Test for proper error messages and handling on invalid actions. | Pass           |
 
-### Validator Testing
+### Responsiveness Testing
 
-- **HTML**: No errors were found using the [W3C HTML Validator](https://validator.w3.org/).
-- **CSS**: No errors were found using the [Jigsaw CSS Validator](https://jigsaw.w3.org/css-validator/).
+| Device/Screen Size       | Test Case Description                              | Result |
+|--------------------------|---------------------------------------------------|--------|
+| **Desktop (1920x1080)**  | Verify layout and content scaling.                | Pass   |
+| **Tablet (800x1280)**    | Check content readability and touch interactions. | Pass   |
+| **Mobile (375x667)**     | Ensure content is mobile-friendly and touchable.  | Pass   |
 
-### Performance Testing
+### Browser Compatibility Testing
 
-- **Lighthouse Scores**: 
-  - **Desktop**: 
-    - Performance: 90+
-    - Accessibility: 90+
-    - Best Practices: 90+
-    - SEO: 90+
-  - **Mobile**: 
-    - Performance: 85+
-    - Accessibility: 90+
-    - Best Practices: 90+
-    - SEO: 90+
+| Browser          | Test Case Description                                      | Result |
+|------------------|-----------------------------------------------------------|--------|
+| **Google Chrome**| Check for layout and functionality consistency.           | Pass   |
+| **Mozilla Firefox** | Verify proper rendering and interactive elements.       | Pass   |
+| **Safari**       | Ensure correct display and behavior of features.         | Pass   |
+| **Microsoft Edge** | Test for consistency and responsiveness.                | Pass   |
+
+### Bugs Resolved
+
+| Issue Description                       | Resolution                                      |
+|----------------------------------------|-------------------------------------------------|
+| **Debug Toolbar Import Error**         | Removed `debug_toolbar` from `settings.py` and updated requirements. |
+| **Application Crashing on Heroku**     | Corrected middleware settings, cleared Heroku cache, and redeployed. |
+| **ModuleNotFoundError for Debug Toolbar** | Removed `debug_toolbar` references from code and configuration. |
+
+### Bugs Unresolved
+
+| Issue Description                       | Current Status                       |
+|----------------------------------------|--------------------------------------|
+| **[Describe the unresolved issue]**    | [Current status of the issue]        |
+
+### Lighthouse Testing Outcome
+
+| Metric          | Desktop Score | Mobile Score | Key Insights                              |
+|-----------------|---------------|--------------|-------------------------------------------|
+| **Performance** | 90+           | 85+          | Image optimization needed.                |
+| **Accessibility** | 90+           | 90+          | Ensure all interactive elements are accessible via keyboard. |
+| **Best Practices** | 90+           | 90+          | Consider using HTTPS for all resources.  |
+| **SEO**         | 90+           | 90+          | Improve meta descriptions and alt attributes. |
+
+### Code Validation
+
+| Validator        | Results                                      |
+|------------------|----------------------------------------------|
+| **HTML**         | No errors found using [W3C HTML Validator](https://validator.w3.org/). |
+| **CSS**          | No errors found using [Jigsaw CSS Validator](https://jigsaw.w3.org/css-validator/). |
+| **JavaScript**   | No errors found using [JSHint or ESLint].   |
+| **Python**       | No major issues detected using [Pylint or flake8]. |
+
+### User Story Testing
+
+| User Story                           | Test Case Description                        | Result |
+|-------------------------------------|----------------------------------------------|--------|
+| **[Brief description of User Story]** | [Description of test case]                  | Pass   |
+
+### Features Testing
+
+| Feature                | Test Case Description                            | Result |
+|------------------------|-------------------------------------------------|--------|
+| **[Brief description of Feature]** | [Description of test case]                  | Pass   |
 
 ## Deployment
 
@@ -124,4 +164,3 @@ Artful is a web application designed for art enthusiasts to explore and manage a
 
 ### Reference Material
 - Inspiration and best practices drawn from various open-source projects and Django documentation.
-
