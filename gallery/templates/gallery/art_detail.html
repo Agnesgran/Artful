@@ -1,58 +1,26 @@
 {% extends "base.html" %}
-{% load static %}
-
-{% block title %}Art Detail{% endblock %}
 
 {% block content %}
-<div class="container mt-4">
-    <h1 class="my-4">{{ art.title }}</h1>
-    <div class="row">
-        <!-- Art Image -->
-        <div class="col-md-8">
-            <img src="{{ art.image.url }}" class="img-fluid rounded" alt="{{ art.title }}">
-        </div>
+<h2>{{ art.title }}</h2>
+<img src="{{ art.image.url }}" alt="{{ art.title }}">
+<p>{{ art.description }}</p>
+<p>Price: ${{ art.price }}</p>
+<p>Artist: {{ art.artist.username }}</p>
 
-        <div class="col-md-4">
-            <div class="mb-4">
-                <h3>Art Description</h3>
-                <p>{{ art.description }}</p>
-            </div>
+{% if user.is_authenticated and art.artist == user %}
+    <a href="{% url 'delete_art' art.pk %}" class="btn btn-danger">Delete</a>
+{% endif %}
 
-             <!-- Art Details -->
-             <div class="mb-4">
-                <h3>Details</h3>
-                <ul class="list-unstyled">
-                    <li><strong>Price:</strong> ${{ art.price }}</li>
-                    <li><strong>Available:</strong> {{ art.available|yesno:"Yes,No" }}</li>
-                    <li><strong>Artist:</strong> {{ art.artist.username }}</li>
-                </ul>
-            </div>
+<h3>Comments</h3>
+{% for comment in comments %}
+    <p>{{ comment.text }}</p>
+    <p>By: {{ comment.user.username }} on {{ comment.created_at }}</p>
+{% endfor %}
 
-            <!-- Comments Section -->
-            <div id="comments-section" class="mb-4">
-                <h3>Comments</h3>
-                <ul id="comments-list" class="list-unstyled">
-                    {% for comment in comments %}
-                    <li class="mb-2 border-bottom pb-2">
-                        <strong>{{ comment.user.username }}:</strong> {{ comment.text }} <br>
-                        <small class="text-muted">{{ comment.created_at }}</small>
-                    </li>
-                    {% empty %}
-                    <li>No comments yet.</li>
-                    {% endfor %}
-                </ul>
-            </div>
-
-            <!-- Comment Form -->
-            <div>
-                <h3>Leave a Comment</h3>
-                <form id="comment-form" method="post">
-                    {% csrf_token %}
-                    {{ comment_form.as_p }}
-                    <button type="submit" class="btn btn-primary">Submit</button>
-                </form>
-            </div>
-        </div>
-    </div>
-</div>
+<h3>Leave a Comment</h3>
+<form method="POST">
+    {% csrf_token %}
+    {{ comment_form.as_p }}
+    <button type="submit" class="btn btn-primary">Submit</button>
+</form>
 {% endblock %}

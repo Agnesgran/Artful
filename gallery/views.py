@@ -10,6 +10,7 @@ from django.contrib.auth import login as auth_login, logout as auth_logout
 from django.urls import reverse_lazy
 from django.contrib.auth.views import LoginView
 from django.contrib.messages import get_messages
+from .forms import ProfileForm
 
 def home(request):
     return render(request, 'gallery/home.html')
@@ -36,19 +37,14 @@ def profile(request):
 
 @login_required
 def update_profile(request):
-    try:
-        profile = Profile.objects.get(user=request.user)
-    except Profile.DoesNotExist:
-        profile = Profile.objects.create(user=request.user)
-
     if request.method == 'POST':
-        form = ProfileUpdateForm(request.POST, request.FILES, instance=profile)
+        form = ProfileForm(request.POST, instance=request.user.profile)
         if form.is_valid():
             form.save()
-            messages.success(request, 'You have updated your profile successfully!')
+            messages.success(request, 'Profile updated successfully!')
             return redirect('profile')
     else:
-        form = ProfileUpdateForm(instance=profile)
+        form = ProfileForm(instance=request.user.profile)
 
     return render(request, 'gallery/update_profile.html', {'form': form})
 
@@ -66,6 +62,16 @@ def upload_art(request):
         form = ArtUploadForm()
     
     return render(request, 'gallery/upload_art.html', {'form': form})
+
+class Art(models.Model):
+    title = models.CharField(max_length=100)
+    image = models.ImageField(upload_to='artworks/')
+    description = models.TextField()
+    price = models.DecimalField(max_digits=10, decimal_places=2)
+    artist = models.ForeignKey(User, on_delete=models.CASCADE)
+
+    def __str__(self):
+        return self.title
 
 def art_detail(request, pk):
     art = get_object_or_404(Art, pk=pk)
@@ -129,8 +135,8 @@ def signup(request):
         form = UserCreationForm(request.POST)
         if form.is_valid():
             form.save()
-            messages.success(request, "You have successfully signed up")
-            return redirect('signup_success')  
+            messages.success(request, 'You have successfully signed up!')
+            return redirect('signup_success')
     else:
         form = UserCreationForm()
     
@@ -161,3 +167,17 @@ class CustomLoginView(LoginView):
     
     def get_success_url(self):
         return reverse_lazy('login_success')
+
+@login_required
+def delete_art(request, pk):
+    art = get_object_or_404(Art, pk=pk)
+    if art.artist != request.user:
+        messages.error(request, "You do not have permission to delete this artwork.")
+        return redirect('art_detail', pk=pk)
+
+    if request.method == 'POST':
+        art.delete()
+        messages.success(request, "Your artwork has been deleted successfully!")
+        return redirect('art_gallery')
+
+    return render(request, 'gallery/delete_art.html', {'art': art})
