@@ -6,6 +6,6 @@
 <form method="POST" enctype="multipart/form-data">
     {% csrf_token %}
     {{ form.as_p }}
-    <button type="submit" name="confirm" value="confirm">Confirm Changes</button>
+    <button type="submit" name="confirm" value="confirm" class="btn btn-primary">Confirm Changes</button>
 </form>
 {% endblock %}

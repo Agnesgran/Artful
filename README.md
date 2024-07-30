@@ -44,25 +44,8 @@ Artful is a web application designed for art enthusiasts to explore and manage a
 
 ### Flow Diagram
 
-Here is a basic flow of user interactions with authentication and capabilities:
 
-```plaintext
-+----------------+       +----------------+       +----------------+       +----------------+
-|  Sign Up Page  | ----> |    Login Page  | ----> |  User Dashboard| ----> |   Upload Art   |
-+----------------+       +----------------+       +----------------+       +----------------+
-                                                          |                             |
-                                                          |                             |
-                                                          v                             v
-                                                 +----------------+       +----------------+
-                                                 |  Commenting    |       |   Delete Art   |
-                                                 |   Feature      |       +----------------+
-                                                 +----------------+       +----------------+
-                                                          |                              |
-                                                          |                              v
-                                                          v               +----------------+
-                                                 +----------------+       | Edit Profile   |
-                                                 | Delete Comment |       +----------------+
-                                                 +----------------+
+
 ## Technologies
 
 - **Frontend**: HTML, CSS (Bootstrap), JavaScript
@@ -88,65 +71,64 @@ Here is a basic flow of user interactions with authentication and capabilities:
 
 ### Manual Testing
 
-| Test Case                         | Description                                      | Result         |
-|-----------------------------------|--------------------------------------------------|----------------|
-| **Homepage Load**                 | Verify homepage loads correctly and all elements are displayed. | Pass           |
-| **Art Gallery Pagination**        | Check if pagination works and correctly displays artworks. | Pass           |
-| **Art Detail Availability**       | Ensure availability status displays as "Yes" or "No". | Pass           |
-| **Profile Update Form**           | Test profile update form for valid and invalid inputs. | Pass           |
-| **Comment Submission**            | Verify users can submit comments and see them reflected. | Pass           |
-| **Login Functionality**           | Ensure login works with correct credentials and error handling for invalid ones. | Pass           |
-| **Responsive Design**             | Check layout on various devices and screen sizes. | Pass           |
-| **Error Handling**                | Test for proper error messages and handling on invalid actions. | Pass           |
+| Test Case                         | Description                                                | Result         |
+|------------------------------|-----------------------------------------------------------------|----------------|
+| **Homepage Load**            | Verify homepage loads correctly and all elements are displayed. | Pass           |
+| **Art Gallery Pagination**   | Check if pagination works and correctly displays artworks.      | Pass           |
+| **Art Detail Availability**  | Ensure availability status displays as "Yes" or "No".           | Pass           |
+| **Profile Update Form**      | Test profile update form for valid and invalid inputs.          | Pass           |
+| **Comment Submission**       | Verify users can submit comments and see them reflected.        | Pass           |
+| **Login Functionality**      | Verify login with valid credentials and error handling.         | Pass           |
+| **Responsive Design**        | Check layout on various devices and screen sizes.               | Pass           |
+| **Error Handling**           | Test for proper error messages and handling on invalid actions. | Pass           |
 
 ### Responsiveness Testing
 
-| Device/Screen Size       | Test Case Description                              | Result |
-|--------------------------|---------------------------------------------------|--------|
-| **Desktop (1920x1080)**  | Verify layout and content scaling.                | Pass   |
-| **Tablet (800x1280)**    | Check content readability and touch interactions. | Pass   |
-| **Mobile (375x667)**     | Ensure content is mobile-friendly and touchable.  | Pass   |
+| Device/Screen Size       | Test Case Description                                 | Result |
+|--------------------------|-------------------------------------------------------|--------|
+| **Desktop Lenovo Yoga 530**  | Verify layout and content scaling.                | Pass   |
+| **Mobile Iphone 15 pro**     | Ensure content is mobile-friendly and touchable.  | Pass   |
 
 ### Browser Compatibility Testing
 
-| Browser          | Test Case Description                                      | Result |
-|------------------|-----------------------------------------------------------|--------|
-| **Google Chrome**| Check for layout and functionality consistency.           | Pass   |
-| **Mozilla Firefox** | Verify proper rendering and interactive elements.       | Pass   |
-| **Safari**       | Ensure correct display and behavior of features.         | Pass   |
-| **Microsoft Edge** | Test for consistency and responsiveness.                | Pass   |
+| Browser             | Test Case Description                                     | Result |
+|---------------------|-----------------------------------------------------------|--------|
+| **Google Chrome**   | Ensure correct display and behavior of features.          | Pass   |
+| **Mozilla Firefox** | Ensure correct display and behavior of features.          | Pass   |
+| **Safari**          | Ensure correct display and behavior of features.          | Pass   |
+| **Microsoft Edge**  | Ensure correct display and behavior of features.          | Pass   |
 
 ### Bugs Resolved
 
-| Issue Description                       | Resolution                                      |
-|----------------------------------------|-------------------------------------------------|
-| **Debug Toolbar Import Error**         | Removed `debug_toolbar` from `settings.py` and updated requirements. |
-| **Application Crashing on Heroku**     | Corrected middleware settings, cleared Heroku cache, and redeployed. |
-| **ModuleNotFoundError for Debug Toolbar** | Removed `debug_toolbar` references from code and configuration. |
+| Issue Description                         | Resolution                                                           |
+|-------------------------------------------|----------------------------------------------------------------------|
+| **Debug Toolbar Import Error**            | Removed `debug_toolbar` from `settings.py` and updated requirements. |
+| **Application Crashing on Heroku**        | Corrected middleware settings, cleared Heroku cache, and redeployed. |
+| **ModuleNotFoundError for Debug Toolbar** | Removed `debug_toolbar` references from code and configuration.      |
 
 ### Bugs Unresolved
 
-| Issue Description                       | Current Status                       |
+| Issue Description                      | Current Status                       |
 |----------------------------------------|--------------------------------------|
 | **[Describe the unresolved issue]**    | [Current status of the issue]        |
 
 ### Lighthouse Testing Outcome
 
-| Metric          | Desktop Score | Mobile Score | Key Insights                              |
-|-----------------|---------------|--------------|-------------------------------------------|
-| **Performance** | 90+           | 85+          | Image optimization needed.                |
-| **Accessibility** | 90+           | 90+          | Ensure all interactive elements are accessible via keyboard. |
-| **Best Practices** | 90+           | 90+          | Consider using HTTPS for all resources.  |
-| **SEO**         | 90+           | 90+          | Improve meta descriptions and alt attributes. |
+| Metric            | Desktop Score | Mobile Score |
+|-------------------|---------------|--------------|
+| **Performance**   | 90+           | 85+          |
+| **Accessibility** | 90+           | 90+          |
+| **Best Practices**| 90+           | 90+          |
+| **SEO**           | 90+           | 90+          |
 
 ### Code Validation
 
 | Validator        | Results                                      |
 |------------------|----------------------------------------------|
-| **HTML**         | No errors found using [W3C HTML Validator](https://validator.w3.org/). |
-| **CSS**          | No errors found using [Jigsaw CSS Validator](https://jigsaw.w3.org/css-validator/). |
-| **JavaScript**   | No errors found using [JSHint or ESLint].   |
-| **Python**       | No major issues detected using [Pylint or flake8]. |
+| **HTML**         | No errors found using [W3C HTML Validator]   |
+| **CSS**          | No errors found using [Jigsaw CSS Validator] |
+| **JavaScript**   | No errors found using [JSHint].              |
+| **Python**       | No major issues detected using [CI Linter].  |
 
 ### User Story Testing
 
@@ -173,21 +155,18 @@ Here is a basic flow of user interactions with authentication and capabilities:
    - In the repository settings, go to the "Pages" section and select the `main` branch as the source.
    - Access your live site via the GitHub Pages URL.
 
-## References
-
-- **Django Documentation**: [Django Official Documentation](https://docs.djangoproject.com/)
-- **Bootstrap**: [Bootstrap Documentation](https://getbootstrap.com/docs/)
-- **W3C Validator**: [W3C Markup Validation Service](https://validator.w3.org/)
-- **CSS Validator**: [W3C CSS Validation Service](https://jigsaw.w3.org/css-validator/)
 
 ## Credits
 
-### Content
-- Icons and images used from [Font Awesome](https://fontawesome.com/) and [Pexels](https://www.pexels.com/).
-- Color palette from [Coolors](https://coolors.co/).
-
 ### Media
-- Background images sourced from [Pexels](https://www.pexels.com/).
+- All images in Artworks page were found on [Pexels](https://www.pexels.com/).
+- Image to display responsiveness in README taken from (https://techsini.com/multi-mockup/index.php)
 
 ### Reference Material
-- Inspiration and best practices drawn from various open-source projects and Django documentation.
+- (https://docs.djangoproject.com/en/5.0/)
+- (https://docs.djangoproject.com/en/5.0/intro/tutorial01/)
+- (https://getbootstrap.com/docs/5.3/getting-started/introduction/)
+- (https://www.w3schools.com/)
+- (https://developer.mozilla.org/en-US/docs/Web/JavaScript)
+- (https://stackoverflow.com/)
+- Code Institute learning material for all technologies used in the project.
