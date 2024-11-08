@@ -1,9 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import User
-from django.db.models.signals import post_save
-from django.dispatch import receiver
 from django.conf import settings
-
 
 class Profile(models.Model):
     USER_TYPE_CHOICES = [
@@ -11,17 +8,20 @@ class Profile(models.Model):
         ('artist', 'Artist'),
     ]
 
-    user = models.ForeignKey(
+    
+    user = models.OneToOneField(
         settings.AUTH_USER_MODEL,
-        on_delete=models.CASCADE
-        )
+        on_delete=models.CASCADE,
+        related_name='profile'
+    )
     name = models.CharField(max_length=100, blank=True)
     location = models.CharField(max_length=100, blank=True)
     age = models.PositiveIntegerField(null=True, blank=True)
     preferred_medium = models.CharField(max_length=100, blank=True)
     user_type = models.CharField(
-             max_length=10, choices=USER_TYPE_CHOICES,
-             default='user')
+        max_length=10, choices=USER_TYPE_CHOICES,
+        default='user'
+    )
 
     def __str__(self):
         return self.user.username
@@ -70,7 +70,7 @@ class Comment(models.Model):
     art = models.ForeignKey(
         Art, on_delete=models.CASCADE,
         related_name='comments'
-        )
+    )
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     text = models.TextField()
     created_at = models.DateTimeField(auto_now_add=True)
